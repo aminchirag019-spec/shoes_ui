@@ -1,22 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:task_1/View/LoginScreen.dart';
-import 'package:task_1/controller/Signupscrencontroller.dart';
-import '../controller/LoginController.dart';
 
-class Signupscreen extends StatelessWidget {
-  const Signupscreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool _obscurePassword = true;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter email';
+    }
+    if (!value.contains('@')) {
+      return 'Enter a valid email';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter password';
+    }
+    if (value.trim().length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(Signupcontroller());
-
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: const Color(0xFF0C1A30),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF0C1A30),
+        leading:IconButton(
+          icon: CircleAvatar(
+            backgroundColor: const Color(0xFF161F28),
+            child: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white70,
+              size: 18,
+            ),
+          ),
+          onPressed: () => context.pop(), // was Get.back()
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
@@ -24,19 +72,12 @@ class Signupscreen extends StatelessWidget {
             vertical: screenHeight * 0.04,
           ),
           child: Form(
-            key: controller.formKey,
+            key: _formKey,
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Back Button
-                IconButton(
-                  icon: CircleAvatar(
-                    backgroundColor: const Color(0xFF161F28),
-                    child: const Icon(Icons.arrow_back_ios,
-                        color: Colors.white70, size: 18),
-                  ),
-                  onPressed: () => Get.back(),
-                ),
 
                 SizedBox(height: screenHeight * 0.04),
 
@@ -44,7 +85,7 @@ class Signupscreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "Create Account!",
+                        "Hello Again!",
                         style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontSize: 28,
@@ -53,7 +94,7 @@ class Signupscreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        "Let's Create Account Together!",
+                        "Welcome Back You’ve Been Missed!",
                         style: GoogleFonts.poppins(
                           color: Colors.white70,
                           fontSize: 14,
@@ -65,34 +106,6 @@ class Signupscreen extends StatelessWidget {
 
                 SizedBox(height: screenHeight * 0.07),
 
-                // Name Field
-                Text(
-                  "Your Name",
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: controller.nameController,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: "Alisson Becker",
-                    hintStyle: const TextStyle(color: Colors.white70),
-                    filled: true,
-                    fillColor: const Color(0xFF102A43),
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 16),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
                 // Email Field
                 Text(
                   "Email Address",
@@ -103,8 +116,8 @@ class Signupscreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  controller: controller.emailController,
-                  validator: controller.validateEmail,
+                  controller: emailController,
+                  validator: _validateEmail,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: "alissonbecker@gmail.com",
@@ -112,9 +125,11 @@ class Signupscreen extends StatelessWidget {
                     filled: true,
                     fillColor: const Color(0xFF102A43),
                     contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 16),
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
                     ),
                   ),
@@ -131,10 +146,10 @@ class Signupscreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Obx(() => TextFormField(
-                  controller: controller.passwordController,
-                  obscureText: controller.obscurePassword.value,
-                  validator: controller.validatePassword,
+                TextFormField(
+                  controller: passwordController,
+                  obscureText: _obscurePassword,
+                  validator: _validatePassword,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: "••••••••",
@@ -142,25 +157,47 @@ class Signupscreen extends StatelessWidget {
                     filled: true,
                     fillColor: const Color(0xFF102A43),
                     contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 16),
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        controller.obscurePassword.value
+                        _obscurePassword
                             ? Icons.visibility_off
                             : Icons.visibility,
                         color: Colors.white54,
                       ),
-                      onPressed: () => controller.obscurePassword.value =
-                      !controller.obscurePassword.value,
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
                     ),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
                     ),
                   ),
-                )),
+                ),
 
                 const SizedBox(height: 10),
+
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      // navigate to forgot password screen
+                      context.push('/ForgotPassScreen');
+                    },
+                    child: Text(
+                      "Recovery Password",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white54,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ),
 
                 SizedBox(height: screenHeight * 0.04),
 
@@ -169,7 +206,20 @@ class Signupscreen extends StatelessWidget {
                   width: double.infinity,
                   height: 55,
                   child: ElevatedButton(
-                    onPressed: controller.handleSignup,
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        final email = emailController.text.trim();
+                        final password = passwordController.text.trim();
+
+                        context.push(
+                          '/HomeScreen',
+                          extra: {
+                            'email': email,
+                            'password': password,
+                          },
+                        );
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF4C8BF5),
                       shape: RoundedRectangleBorder(
@@ -190,7 +240,7 @@ class Signupscreen extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 Image.asset(
-                  "assets/images/signinwithgooglebutton.png",
+                  "assets/images/Button.png",
                   height: 60,
                   width: double.infinity,
                 ),
@@ -198,22 +248,27 @@ class Signupscreen extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.15),
 
                 Center(
-                  child: Text.rich(
-                    TextSpan(
-                      text: "Already Have An Account? ",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white54,
-                        fontSize: 13,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: "Sign In",
-                          style: GoogleFonts.poppins(
-                            color: Colors.blueAccent,
-                            fontWeight: FontWeight.w600,
-                          ),
+                  child: GestureDetector(
+                    onTap: () {
+                      context.push('/SignupScreen');
+                    },
+                    child: Text.rich(
+                      TextSpan(
+                        text: "Don’t Have An Account? ",
+                        style: GoogleFonts.poppins(
+                          color: Colors.white54,
+                          fontSize: 13,
                         ),
-                      ],
+                        children: [
+                          TextSpan(
+                            text: "Sign Up For Free",
+                            style: GoogleFonts.poppins(
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

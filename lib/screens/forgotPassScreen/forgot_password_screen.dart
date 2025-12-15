@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:task_1/controller/ForgotPasswordController.dart';
 
-class Forgotpasswordscreen extends StatelessWidget {
-  const Forgotpasswordscreen({super.key});
+
+class ForgotPasswordScreen extends StatelessWidget {
+  const ForgotPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(Forgotpasswordcontroller());
+
 
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -22,7 +22,6 @@ class Forgotpasswordscreen extends StatelessWidget {
             vertical: screenHeight * 0.04,
           ),
           child: Form(
-            key: controller.formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -33,7 +32,7 @@ class Forgotpasswordscreen extends StatelessWidget {
                     child: const Icon(Icons.arrow_back_ios,
                         color: Colors.white70, size: 18),
                   ),
-                  onPressed: () => Get.back(),
+                  onPressed: () => context.pop()
                 ),
 
                 SizedBox(height: screenHeight * 0.04),
@@ -73,8 +72,6 @@ class Forgotpasswordscreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  controller: controller.emailController,
-                  validator: controller.validateEmail,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: "alissonbecker@gmail.com",
@@ -95,7 +92,7 @@ class Forgotpasswordscreen extends StatelessWidget {
                   width: double.infinity,
                   height: 55,
                   child: ElevatedButton(
-                    onPressed: controller.handleForgotPasswordButton,
+                    onPressed:() =>  context.push('/LoginScreen'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF4C8BF5),
                       shape: RoundedRectangleBorder(

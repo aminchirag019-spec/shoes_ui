@@ -1,22 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:task_1/View/ForgotPasswordScreen.dart';
-import 'package:task_1/View/SignUpScreen.dart';
-import '../controller/LoginController.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+
+class Signupscreen extends StatelessWidget {
+  Signupscreen({super.key});
+
+final formkey =GlobalKey<FormState>();
+
+
+  String? _validateName(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter your name';
+    }
+    if (value.trim().length < 3) {
+      return 'Name must be at least 3 characters';
+    }
+    return null;
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter email';
+    }
+    if (!value.contains('@')) {
+      return 'Enter a valid email';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please enter password';
+    }
+    if (value.trim().length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
 
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: const Color(0xFF0C1A30),
+      appBar: AppBar(
+        backgroundColor:Color(0xFF0C1A30),
+        leading: IconButton(
+          icon: CircleAvatar(
+            backgroundColor: const Color(0xFF161F28),
+            child: const Icon(Icons.arrow_back_ios,
+                color: Colors.white70, size: 18),
+          ),
+          onPressed: () => context.pop(),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
@@ -24,27 +66,16 @@ class LoginScreen extends StatelessWidget {
             vertical: screenHeight * 0.04,
           ),
           child: Form(
-            key: controller.formKey,
+            key: formkey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Back Button
-                IconButton(
-                  icon: CircleAvatar(
-                    backgroundColor: const Color(0xFF161F28),
-                    child: const Icon(Icons.arrow_back_ios,
-                        color: Colors.white70, size: 18),
-                  ),
-                  onPressed: () => Get.back(),
-                ),
-
                 SizedBox(height: screenHeight * 0.04),
-
                 Center(
                   child: Column(
                     children: [
                       Text(
-                        "Hello Again!",
+                        "Create Account!",
                         style: GoogleFonts.poppins(
                           color: Colors.white,
                           fontSize: 28,
@@ -53,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        "Welcome Back You’ve Been Missed!",
+                        "Let's Create Account Together!",
                         style: GoogleFonts.poppins(
                           color: Colors.white70,
                           fontSize: 14,
@@ -65,6 +96,34 @@ class LoginScreen extends StatelessWidget {
 
                 SizedBox(height: screenHeight * 0.07),
 
+                // Name Field
+                Text(
+                  "Your Name",
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  validator: _validateName,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: "Alisson Becker",
+                    hintStyle: const TextStyle(color: Colors.white70),
+                    filled: true,
+                    fillColor: const Color(0xFF102A43),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 16),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 20),
+
                 // Email Field
                 Text(
                   "Email Address",
@@ -75,9 +134,8 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  controller: controller.emailController,
-                  validator: controller.validateEmail,
                   style: const TextStyle(color: Colors.white),
+                  validator: _validateEmail,
                   decoration: InputDecoration(
                     hintText: "alissonbecker@gmail.com",
                     hintStyle: const TextStyle(color: Colors.white70),
@@ -103,11 +161,9 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Obx(() => TextFormField(
-                  controller: controller.passwordController,
-                  obscureText: controller.obscurePassword.value,
-                  validator: controller.validatePassword,
+                 TextFormField(
                   style: const TextStyle(color: Colors.white),
+                  validator: _validatePassword,
                   decoration: InputDecoration(
                     hintText: "••••••••",
                     hintStyle: const TextStyle(color: Colors.white70),
@@ -115,49 +171,23 @@ class LoginScreen extends StatelessWidget {
                     fillColor: const Color(0xFF102A43),
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 16),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        controller.obscurePassword.value
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: Colors.white54,
-                      ),
-                      onPressed: () => controller.obscurePassword.value =
-                      !controller.obscurePassword.value,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                )),
-
+                   border: OutlineInputBorder(
+                     borderRadius: BorderRadius.circular(15),
+                     borderSide: BorderSide.none,
+                   ),
+                  ),),
                 const SizedBox(height: 10),
-
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      Get.to(Forgotpasswordscreen());
-                    },
-                    child: Text(
-                      "Recovery Password",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white54,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                ),
-
                 SizedBox(height: screenHeight * 0.04),
-
                 // Sign In Button
                 SizedBox(
                   width: double.infinity,
                   height: 55,
                   child: ElevatedButton(
-                    onPressed: controller.handleLogin,
+                    onPressed: () {
+                      if (formkey.currentState?.validate() ?? false) {
+                        context.go('/HomeScreen');
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF4C8BF5),
                       shape: RoundedRectangleBorder(
@@ -178,7 +208,7 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 20),
 
                 Image.asset(
-                  "assets/images/signinwithgooglebutton.png",
+                  "assets/images/Button.png",
                   height: 60,
                   width: double.infinity,
                 ),
@@ -186,27 +216,22 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: screenHeight * 0.15),
 
                 Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(Signupscreen());
-                    },
-                    child: Text.rich(
-                      TextSpan(
-                        text: "Don’t Have An Account? ",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white54,
-                          fontSize: 13,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: "Sign Up For Free",
-                            style: GoogleFonts.poppins(
-                              color: Colors.blueAccent,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+                  child: Text.rich(
+                    TextSpan(
+                      text: "Already Have An Account? ",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white54,
+                        fontSize: 13,
                       ),
+                      children: [
+                        TextSpan(
+                          text: "Sign In",
+                          style: GoogleFonts.poppins(
+                            color: Colors.blueAccent,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
