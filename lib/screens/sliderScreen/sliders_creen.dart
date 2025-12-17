@@ -3,14 +3,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_1/screens/sliderScreen/widget_slider.dart';
 
-class Sliderscreen extends StatefulWidget {
-  const Sliderscreen({super.key});
+class SliderScreen extends StatefulWidget {
+  const SliderScreen({super.key});
 
   @override
-  State<Sliderscreen> createState() => _SliderScreen();
+  State<SliderScreen> createState() => _SliderScreen();
 }
 
-class _SliderScreen extends State<Sliderscreen> {
+class _SliderScreen extends State<SliderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

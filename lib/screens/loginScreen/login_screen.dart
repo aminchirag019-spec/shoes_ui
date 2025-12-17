@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_1/main.dart';
+import 'package:task_1/router/router_class.dart';
+import 'package:task_1/screens/homeScreen/home_screen.dart';
+import 'package:task_1/utilities/media_query.dart';
+import '../../session/session_class.dart';
+import '../../session/session_key.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,7 +16,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -53,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: const Color(0xFF0C1A30),
       appBar: AppBar(
         backgroundColor: Color(0xFF0C1A30),
-        leading:IconButton(
+        leading: IconButton(
           icon: CircleAvatar(
             backgroundColor: const Color(0xFF161F28),
             child: const Icon(
@@ -68,12 +74,11 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.09,
-            vertical: screenHeight * 0.04,
+            horizontal: 45,
+            vertical: 40,
           ),
           child: Form(
-            key: _formKey,
-
+            key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -104,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                SizedBox(height: screenHeight * 0.07),
+                SizedBox(height: 60),
 
                 // Email Field
                 Text(
@@ -152,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   validator: _validatePassword,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    hintText: "••••••••",
+                    hintText: "Password",
                     hintStyle: const TextStyle(color: Colors.white70),
                     filled: true,
                     fillColor: const Color(0xFF102A43),
@@ -199,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                SizedBox(height: screenHeight * 0.04),
+                SizedBox(height: 40),
 
                 // Sign In Button
                 SizedBox(
@@ -207,18 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 55,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        final email = emailController.text.trim();
-                        final password = passwordController.text.trim();
-
-                        context.push(
-                          '/HomeScreen',
-                          extra: {
-                            'email': email,
-                            'password': password,
-                          },
-                        );
-                      }
+                      _onLogin(context,emailController,formKey);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF4C8BF5),
@@ -280,3 +274,20 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+void _onLogin(BuildContext context, dynamic emailController,GlobalKey<FormState>formkey) async {
+// ... validation ...
+  if (!formkey.currentState!.validate()) return;
+print("step-1");
+await SharedPrefsHelper().saveData(PrefKeys.isLoggedIn, true);
+  print("step-2");
+await SharedPrefsHelper().saveData(PrefKeys.loginId, emailController.text.trim());
+  print("step-3");
+if (!context.mounted) return;
+  print("step-4");
+ GoRouter.of(context).refresh();
+  print("step-5");
+  context.push(RouterName.homeScreen.path);
+  print("step-6");
+}
+

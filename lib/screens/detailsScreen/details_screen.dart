@@ -28,7 +28,6 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xFF1A2530),
       bottomNavigationBar: _buildBottomBar(),
@@ -58,7 +57,7 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
                   ),
 
                   SizedBox(
-                    height: height * 0.3,
+                    height:30,
                     child: Stack(
                       alignment: Alignment.center,
                       children: [

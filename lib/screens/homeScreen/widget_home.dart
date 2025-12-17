@@ -49,7 +49,7 @@ Widget drawer(){
               const Spacer(),
               Divider(color: AppColors.white),
               const SizedBox(height: 30),
-              menuItem(context, "assets/images/Sign Out.png", "Sign Out", '/LoginScreen'),
+              menuItem(context, "assets/images/Signout.png", "Sign Out", '/LoginScreen'),
             ],
           ),
         ),

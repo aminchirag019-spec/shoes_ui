@@ -144,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     TextFormField(
                       style:  TextStyle(color:AppColors.white),
                       decoration: InputDecoration(
-                        hintText: "••••••••",
+                        hintText: "Password",
                         hintStyle:  TextStyle(color: Colors.white70),
                         filled: true,
                         fillColor:  Color(0xFF161F28),

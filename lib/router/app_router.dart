@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:network_aware_package/network_aware_package.dart';
+import 'package:task_1/router/router_class.dart';
 import 'package:task_1/screens/sliderScreen/sliders_creen.dart';
 import 'package:task_1/screens/loginScreen/login_screen.dart';
 import 'package:task_1/screens/signupScreen/signup_screen.dart';
@@ -14,79 +16,124 @@ import 'package:task_1/screens/bestSellerScreen/best_seller_screen.dart';
 import 'package:task_1/screens/accountSettingScreen/account_setting_screen.dart';
 import 'package:task_1/screens/profileScreen/profile_screen.dart';
 import 'package:task_1/screens/searchScreen/search_screen.dart';
+import 'package:task_1/screens/splashScreen/splash_screen.dart';
+import 'package:task_1/screens/widgets/widget_bottom.dart';
+import '../connectivity/connectivity_checker.dart';
+import '../main.dart';
 import '../screens/widgets/zoom_drawer.dart';
+import '../session/session_class.dart';
+import '../session/session_key.dart';
+
+class LastRouteStore {
+  static String? lastPath;
+}
 
 final GoRouter approuter = GoRouter(
-  initialLocation: '/SliderScreen',
+  initialLocation: RouterName.splashScreen.path,
+  refreshListenable: AppNetworkService.instance,
+  redirect: (context, state) {
+    final isLoggedIn = SharedPrefsHelper().getData(PrefKeys.isLoggedIn) ?? false;
+    final isOnline = AppNetworkService.instance.isOnline;
+    final path = state.uri.path;
+
+    if (isOnline && path != RouterName.splashScreen.path) {
+      LastRouteStore.lastPath = path;
+    }
+
+    if (!isOnline && path != RouterName.splashScreen.path) {
+      return RouterName.splashScreen.path;
+    }
+
+    if (isOnline && path == RouterName.splashScreen.path) {
+      return LastRouteStore.lastPath;
+    }
+
+    if (!isLoggedIn) {
+      if (path != RouterName.loginScreen.path &&
+          path != RouterName.splashScreen.path) {
+        return RouterName.loginScreen.path;
+      }
+    }
+    if (isLoggedIn) {
+      if (path == RouterName.splashScreen.path ||
+          path == RouterName.loginScreen.path) {
+        return RouterName.homeScreen.path;
+      }
+    }
+
+    return null;
+  },
   routes: [
     GoRoute(
-      path: '/SliderScreen',
-      builder: (context, state) => Sliderscreen(),
+      path: RouterName.sliderScreen.path,
+      builder: (context, state) => SliderScreen(),
     ),
     GoRoute(
-      path: '/LoginScreen',
+      path: RouterName.loginScreen.path,
       builder: (context, state) => LoginScreen(),
     ),
     GoRoute(
-      path: '/SignupScreen',
+      path: RouterName.signupScreen.path,
       builder: (context, state) => Signupscreen(),
     ),
     GoRoute(
-      path: '/ForgotPassScreen',
+      path: RouterName.forgotPassScreen.path,
       builder: (context, state) => ForgotPasswordScreen(),
     ),
-
     ShellRoute(
       builder: (context, state, child) {
-        return ZoomShell(child: child);
+        return MainWrapper(child: child);
       },
       routes: [
         GoRoute(
-          path: '/HomeScreen',
-          builder: (context, state) => const HomeScreen(),
+          path: RouterName.homeScreen.path,
+          builder: (context, state) => HomeScreen(),
         ),
         GoRoute(
-          path: '/FavouriteScreen',
-          builder: (context, state) => const FavouriteScreen(),
+          path: RouterName.favouriteScreen.path,
+          builder: (context, state) => FavouriteScreen(),
         ),
         GoRoute(
-          path: '/NotificationScreen',
-          builder: (context, state) =>  NotificationScreen(),
+          path: RouterName.notificationScreen.path,
+          builder: (context, state) => NotificationScreen(),
         ),
         GoRoute(
-          path: '/ProfileScreen',
-          builder: (context, state) => const ProfileScreen(),
+          path: RouterName.profileScreen.path,
+          builder: (context, state) => ProfileScreen(),
         ),
       ],
     ),
     GoRoute(
-          path: '/DetailsScreen',
-          builder: (context, state) => DetailsScreen(),
-        ),
-        GoRoute(
-          path: '/MycartScreen',
-          builder: (context, state) => MycartScreen(),
-        ),
-        GoRoute(
-          path: '/CheckoutScreen',
-          builder: (context, state) => CheckoutScreen(),
-        ),
-        GoRoute(
-          path: '/PaymentCheckoutScreen',
-          builder: (context, state) => PaymentCheckoutScreen(),
-        ),
-        GoRoute(
-          path: '/BestSellerScreen',
-          builder: (context, state) => BestSellerScreen(),
-        ),
-        GoRoute(
-          path: '/AccountSettingScreen',
-          builder: (context, state) => AccountSettingScreen(),
-        ),
-        GoRoute(
-          path: '/SearchScreen',
-          builder: (context, state) => SearchScreen(),
-        ),
-      ],
-    );
-
+      path: RouterName.detailsScreen.path,
+      builder: (context, state) => DetailsScreen(),
+    ),
+    GoRoute(
+      path: RouterName.mycartScreen.path,
+      builder: (context, state) => MycartScreen(),
+    ),
+    GoRoute(
+      path: RouterName.checkoutScreen.path,
+      builder: (context, state) => CheckoutScreen(),
+    ),
+    GoRoute(
+      path: RouterName.paymentCheckoutScreen.path,
+      builder: (context, state) => PaymentCheckoutScreen(),
+    ),
+    GoRoute(
+      path: RouterName.bestSellerScreen.path,
+      builder: (context, state) => BestSellerScreen(),
+    ),
+    GoRoute(
+      path: RouterName.accountSettingScreen.path,
+      builder: (context, state) => AccountSettingScreen(),
+    ),
+    GoRoute(
+      path: RouterName.searchScreen.path,
+      builder: (context, state) => SearchScreen(),
+    ),
+    GoRoute(
+      path: RouterName.splashScreen.path,
+      builder: (context, state) => SplashScreen(),
+    )
+  ],
+);

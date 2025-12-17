@@ -29,7 +29,7 @@ Widget caraouselSlider(){
       carouselController: _controller,
       itemCount: sliderData.length,
       options: CarouselOptions(
-        height: MediaQuery.of(context).size.height * 0.7,
+        height:70,
         enlargeCenterPage: true,
         viewportFraction: 1.0,
         enableInfiniteScroll: false,
@@ -39,7 +39,6 @@ Widget caraouselSlider(){
       ),
       itemBuilder: (context, index, realIndex) {
         final item = sliderData[index];
-        final screenHeight = MediaQuery.of(context).size.height;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -48,7 +47,7 @@ Widget caraouselSlider(){
             children: [
               Image.asset(
                 item["image"]!,
-                height: screenHeight * 0.40,
+                height:40,
                 fit: BoxFit.contain,
               ),
               Text(

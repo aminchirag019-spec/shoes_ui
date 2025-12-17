@@ -10,16 +10,13 @@ class ForgotPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: const Color(0xFF0C1A30),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.09,
-            vertical: screenHeight * 0.04,
+            horizontal: 50,
+            vertical:40,
           ),
           child: Form(
             child: Column(
@@ -34,9 +31,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   ),
                   onPressed: () => context.pop()
                 ),
-
-                SizedBox(height: screenHeight * 0.04),
-
+                SizedBox(height:40),
                 Center(
                   child: Column(
                     children: [
@@ -59,9 +54,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                SizedBox(height: screenHeight * 0.07),
-
+                SizedBox(height:70),
                 // Email Field
                 Text(
                   "Email Address",
@@ -86,13 +79,15 @@ class ForgotPasswordScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: screenHeight * 0.04),
+                SizedBox(height: 40),
                 // Sign In Button
                 SizedBox(
                   width: double.infinity,
                   height: 55,
                   child: ElevatedButton(
-                    onPressed:() =>  context.push('/LoginScreen'),
+                    onPressed:() {
+                      _onSign(context);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF4C8BF5),
                       shape: RoundedRectangleBorder(
@@ -116,4 +111,8 @@ class ForgotPasswordScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void _onSign(BuildContext context){
+  context.push('/LoginScreen');
 }

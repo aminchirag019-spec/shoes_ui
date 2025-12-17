@@ -42,10 +42,6 @@ final formkey =GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: const Color(0xFF0C1A30),
       appBar: AppBar(
@@ -62,15 +58,15 @@ final formkey =GlobalKey<FormState>();
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.09,
-            vertical: screenHeight * 0.04,
+            horizontal: 45,
+            vertical: 40,
           ),
           child: Form(
             key: formkey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: screenHeight * 0.04),
+                SizedBox(height:40),
                 Center(
                   child: Column(
                     children: [
@@ -94,7 +90,7 @@ final formkey =GlobalKey<FormState>();
                   ),
                 ),
 
-                SizedBox(height: screenHeight * 0.07),
+                SizedBox(height:70),
 
                 // Name Field
                 Text(
@@ -116,7 +112,7 @@ final formkey =GlobalKey<FormState>();
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 16),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
                     ),
                   ),
@@ -144,7 +140,7 @@ final formkey =GlobalKey<FormState>();
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 16),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide.none,
                     ),
                   ),
@@ -165,19 +161,19 @@ final formkey =GlobalKey<FormState>();
                   style: const TextStyle(color: Colors.white),
                   validator: _validatePassword,
                   decoration: InputDecoration(
-                    hintText: "••••••••",
+                    hintText: "Password",
                     hintStyle: const TextStyle(color: Colors.white70),
                     filled: true,
                     fillColor: const Color(0xFF102A43),
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 16),
                    border: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(15),
+                     borderRadius: BorderRadius.circular(30),
                      borderSide: BorderSide.none,
                    ),
                   ),),
                 const SizedBox(height: 10),
-                SizedBox(height: screenHeight * 0.04),
+                SizedBox(height: 40),
                 // Sign In Button
                 SizedBox(
                   width: double.infinity,
@@ -213,7 +209,7 @@ final formkey =GlobalKey<FormState>();
                   width: double.infinity,
                 ),
 
-                SizedBox(height: screenHeight * 0.15),
+                SizedBox(height: 150),
 
                 Center(
                   child: Text.rich(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 
 class PaymentCheckoutScreen extends StatelessWidget {
@@ -36,9 +37,7 @@ class PaymentCheckoutScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(); // close dialog
-                    // optionally pop checkout page as well:
-                    // Navigator.of(context).pop();
+                    context.pop(context);// close dialog
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),

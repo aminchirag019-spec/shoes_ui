@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:go_router/go_router.dart';
+import 'package:task_1/screens/homeScreen/home_screen.dart';
+import 'package:task_1/screens/homeScreen/widget_home.dart';
+import 'package:task_1/screens/widgets/zoom_drawer.dart';
+import 'package:task_1/utilities/colors.dart';
+import 'bottomNavbar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_1/utilities/colors.dart';
+// Uncomment this
 
 class NavIcon extends StatelessWidget {
   final IconData icon;
@@ -77,6 +87,16 @@ class Fab extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 class NavBarPainter extends CustomPainter {

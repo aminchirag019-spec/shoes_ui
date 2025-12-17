@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_1/screens/widgets/widget_bottom.dart';
+import 'package:task_1/utilities/bottom_icons.dart';
 import 'package:task_1/utilities/colors.dart';
 
 class BottomNav extends StatelessWidget {
@@ -41,7 +42,7 @@ class BottomNav extends StatelessWidget {
                   Row(
                     children: [
                       NavIcon(
-                        icon: Icons.home_outlined,
+                        icon: BottomIcons.home,
                         index: 0,
                         selected: selectedIndex,
                         onTap: onTabSelected,
@@ -49,7 +50,7 @@ class BottomNav extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       NavIcon(
-                        icon: Icons.favorite_border,
+                        icon: BottomIcons.fav,
                         index: 1,
                         selected: selectedIndex,
                         onTap: onTabSelected,
@@ -60,7 +61,7 @@ class BottomNav extends StatelessWidget {
                   Row(
                     children: [
                       NavIcon(
-                        icon: Icons.notifications_none,
+                        icon:BottomIcons.notifi,
                         index: 2,
                         selected: selectedIndex,
                         onTap: onTabSelected,
@@ -68,7 +69,7 @@ class BottomNav extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       NavIcon(
-                        icon: Icons.person_outline,
+                        icon:BottomIcons.person,
                         index: 3,
                         selected: selectedIndex,
                         onTap: onTabSelected,
@@ -94,3 +95,5 @@ class BottomNav extends StatelessWidget {
     );
   }
 }
+
+
