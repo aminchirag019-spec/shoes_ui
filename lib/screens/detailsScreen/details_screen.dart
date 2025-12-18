@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_1/utilities/colors.dart';
+import 'package:task_1/utilities/media_query.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});
@@ -11,9 +12,9 @@ class DetailsScreen extends StatefulWidget {
 
 class _ShoeDetailNoSliversState extends State<DetailsScreen> {
   final thumbs = [
-    'assets/images/shoes_4.png',
-    'assets/images/shoes_4.png',
-    'assets/images/shoes_4.png',
+    'assets/images/Imag.png',
+    'assets/images/Imag.png',
+    'assets/images/Imag.png',
   ];
   final sizes = [38, 39, 40, 41, 42, 43];
 
@@ -92,7 +93,7 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 12.0),
                                 child: Image.asset(thumbs[index],
-                                    width: 280, fit: BoxFit.contain),
+                                    width: width(context)*0.28, fit: BoxFit.contain),
                               ),
                             );
                           },

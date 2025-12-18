@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_1/screens/checkoutScreen/widget_checkout.dart' hide summaryRow;
 import 'package:task_1/utilities/colors.dart';
+import 'package:task_1/utilities/media_query.dart';
 
 import '../myCartScreen/widget_myscreen.dart';
 
@@ -50,7 +51,7 @@ class CheckoutScreen extends StatelessWidget {
                   summaryRow("Total Cost", "\$1690.99", isBold: true),
               SizedBox(height: 30,),
               Container(
-                width: 410,
+                width: width(context)*0.9,
                 height: 60,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(

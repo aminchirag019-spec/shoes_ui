@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:task_1/router/router_class.dart';
 import 'package:task_1/session/session_class.dart';
 import 'package:task_1/utilities/colors.dart';
+import 'package:task_1/utilities/media_query.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -42,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Image.asset(
               'assets/images/shoes_2.png',
-              width: 250,
+              width: width(context)*0.5,
               height: 250,
               fit: BoxFit.contain,
             ),

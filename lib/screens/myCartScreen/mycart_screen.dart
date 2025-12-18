@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_1/screens/favoriteScreen/favourite_screen.dart';
 import 'package:task_1/screens/myCartScreen/widget_myscreen.dart';
+import 'package:task_1/utilities/media_query.dart';
 
 import '../../utilities/colors.dart';
 
@@ -50,7 +51,7 @@ class _MycartScreenState extends State<MycartScreen> {
               children: [
                    Container(
                     height: 300,
-                    width:410,
+                    width:width(context)*1,
                     decoration: BoxDecoration(
                       color: AppColors.bg,
                       borderRadius: BorderRadius.circular(30)

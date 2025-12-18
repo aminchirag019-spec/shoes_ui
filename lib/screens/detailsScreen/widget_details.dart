@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_1/utilities/media_query.dart';
 
 import '../../utilities/colors.dart';
 import '../../utilities/icons.dart';
 import '../homeScreen/widget_home.dart';
 
-Widget topBar() {
+Widget topBar(context) {
   return Column(
     children: [
       Row(
@@ -35,8 +36,8 @@ Widget topBar() {
       ),
       Container(
          height: 250,
-         width: 300,
-         child: Image(image: AssetImage("assets/images/shoes_4.png"),
+         width: width(context)*0.4,
+         child: Image(image: AssetImage("assets/images/Imag.png"),
          ),
        ),
       SizedBox(

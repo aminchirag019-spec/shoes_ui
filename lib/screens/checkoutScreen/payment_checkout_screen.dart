@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:task_1/utilities/media_query.dart';
 
 
 class PaymentCheckoutScreen extends StatelessWidget {
@@ -11,7 +12,7 @@ class PaymentCheckoutScreen extends StatelessWidget {
       backgroundColor: Colors.transparent,
       child: Center(
         child: Container(
-          width: 320,
+          width: width(context)*0.8,
           padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 20),
           decoration: BoxDecoration(
             color: const Color(0xFF16242A),

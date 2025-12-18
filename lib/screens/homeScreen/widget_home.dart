@@ -6,6 +6,8 @@ import 'package:task_1/router/router_class.dart';
 import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/icons.dart';
 
+import '../../utilities/media_query.dart';
+
 // 1. Converted to a Class for proper context handling
 Widget drawer() {
   return StatefulBuilder(
@@ -249,7 +251,7 @@ Widget brandRow({bool isOpen = false}) {
                     AnimatedContainer( // Animate the icon circle color
                       duration: const Duration(milliseconds: 300),
                       height: 40,
-                      width: 40,
+                      width: width(context)*0.1,
                       decoration: BoxDecoration(
                         color: iconCircleColor,
                         shape: BoxShape.circle,
@@ -341,7 +343,7 @@ Widget popularShoes({bool isOpen = false}) {
       itemBuilder: (context, index) {
         final item = items[index];
         return Container(
-          width: 180,
+          width: width(context)*0.42,
           margin: const EdgeInsets.only(right: 16),
           decoration: BoxDecoration(
             color: isOpen ? Colors.white : AppColors.cardBg,
@@ -459,7 +461,6 @@ Widget newArrivalCard({bool isOpen = false}) {
           Image.asset("assets/images/shoes_3.png", height: 100),
           SizedBox(width: 10),
         ],
-      ),
-    ),
+      ),    ),
   );
 }
