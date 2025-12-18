@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:task_1/router/router_class.dart';
 
 int _currentIndex = 0;
 final CarouselSliderController _controller = CarouselSliderController();
@@ -29,10 +30,9 @@ Widget caraouselSlider(){
       carouselController: _controller,
       itemCount: sliderData.length,
       options: CarouselOptions(
-        height:70,
+        height:500,
         enlargeCenterPage: true,
         viewportFraction: 1.0,
-        enableInfiniteScroll: false,
         onPageChanged: (index, reason) {
           setState(() => _currentIndex = index);
         },
@@ -40,16 +40,17 @@ Widget caraouselSlider(){
       itemBuilder: (context, index, realIndex) {
         final item = sliderData[index];
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal:15,vertical: 80),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                item["image"]!,
-                height:40,
-                fit: BoxFit.contain,
+              Container(
+                child:Image.asset(
+                  item["image"]!,
+                  height:200,
+                  fit: BoxFit.contain,
+                ),
               ),
+              SizedBox(height: 70,),
               Text(
                 item["title"]!,
                 textAlign: TextAlign.left,
@@ -59,7 +60,6 @@ Widget caraouselSlider(){
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               Text(
                 item["subtitle"]!,
                 textAlign: TextAlign.left,
@@ -111,8 +111,7 @@ Widget button(){
             curve: Curves.easeInOut,
           );
         } else {
-          context.push('/LoginScreen');
-
+          context.push(RouterName.loginScreen.path);
         }
       },
       style: ElevatedButton.styleFrom(
@@ -131,5 +130,6 @@ Widget button(){
         const TextStyle(fontSize: 16, color: Colors.white),
       ),
     );
-  },
-  ); }
+  }
+  );
+  }

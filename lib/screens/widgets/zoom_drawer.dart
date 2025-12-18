@@ -117,7 +117,6 @@ class _MainWrapperState extends State<MainWrapper> {
     return ZoomDrawer(
       controller: _drawerController,
 
-      // TODO: replace with your real drawer widget
       menuScreen: drawer(),
       borderRadius: 24,
       showShadow: false,

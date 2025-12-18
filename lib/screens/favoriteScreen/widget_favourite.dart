@@ -41,7 +41,7 @@ Widget shoesOptions(){
           crossAxisCount: 2,
           crossAxisSpacing: 21,
           mainAxisSpacing: 20,
-          childAspectRatio: 0.8,
+          childAspectRatio: 0.68,
         ),
         itemBuilder: (context, index) {
           final item = items[index];

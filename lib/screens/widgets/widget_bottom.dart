@@ -98,49 +98,84 @@ class Fab extends StatelessWidget {
 
 
 
-
 class NavBarPainter extends CustomPainter {
-  final Color color; // Added to accept dynamic color
+  final Color color;
 
   NavBarPainter({required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color; // Use the passed color
-    final path = Path();
+    final Paint paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
 
-    final notchRadius = 60.0;
-    final centerX = size.width / 2;
-    final notchCenterY = 30.0;
-    const double topCurveHeight = -22.0;
+    final Path path = Path();
 
-    path.moveTo(0, topCurveHeight);
-    path.quadraticBezierTo(centerX * 0.25, 0, centerX - notchRadius - 12, 0);
+    final double fabRadius = 36;
+    final double notchRadius = fabRadius + 12;
+    final double notchDepth = 38;
+    final double centerX = size.width / 2;
+    const double topCurve = -26;
+    const double smoothness = 18;
+
+    path.moveTo(0, topCurve);
+
     path.quadraticBezierTo(
-        centerX - notchRadius - 6, 0,
-        centerX - notchRadius + 8, notchCenterY + 8);
+      centerX * 0.22,
+      0,
+      centerX - notchRadius - smoothness,
+      0,
+    );
+
+    // LEFT NOTCH CURVE
+    path.quadraticBezierTo(
+      centerX - notchRadius,
+      0,
+      centerX - notchRadius + 8,
+      notchDepth,
+    );
+
+    // CENTER ARC (perfect semicircle)
     path.arcToPoint(
-      Offset(centerX + notchRadius - 8, notchCenterY + 8),
-      radius: Radius.circular(notchRadius + 8),
+      Offset(centerX + notchRadius - 8, notchDepth),
+      radius: Radius.circular(notchRadius),
       clockwise: false,
     );
-    path.quadraticBezierTo(
-        centerX + notchRadius - 6, 0,
-        centerX + notchRadius + 12, 0);
-    path.quadraticBezierTo(
-        centerX + (size.width - centerX) * 0.75,
-        0,
-        size.width,
-        topCurveHeight);
 
+    // RIGHT NOTCH CURVE (mirror)
+    path.quadraticBezierTo(
+      centerX + notchRadius,
+      0,
+      centerX + notchRadius + smoothness,
+      2,
+    );
+
+    // RIGHT OUTER CURVE
+    path.quadraticBezierTo(
+      centerX + (size.width - centerX) * 0.78,
+      0,
+      size.width,
+      topCurve,
+    );
+
+    // BOTTOM
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.close();
 
-    canvas.drawShadow(path, Colors.black, 6, true);
+    // SHADOW
+    canvas.drawShadow(
+      path,
+      Colors.black.withOpacity(0.45),
+      10,
+      true,
+    );
+
     canvas.drawPath(path, paint);
   }
 
   @override
-  bool shouldRepaint(NavBarPainter oldDelegate) => color != oldDelegate.color;
+  bool shouldRepaint(covariant NavBarPainter oldDelegate) =>
+      oldDelegate.color != color;
 }
+

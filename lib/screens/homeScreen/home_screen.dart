@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                               const SizedBox(height: 20),
                               searchBar(isOpen: isOpen),
                               const SizedBox(height: 20),
-                              brandRow(isOpen: isOpen),
+                              brandRow(isOpen : isOpen),
                               const SizedBox(height: 20),
                               sectionHeader("Popular Shoes", isOpen: isOpen),
                               const SizedBox(height: 12),

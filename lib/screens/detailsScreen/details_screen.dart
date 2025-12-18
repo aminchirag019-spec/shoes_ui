@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_1/utilities/colors.dart';
 
@@ -45,19 +46,36 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _iconBox(Icons.arrow_back),
+                        IconButton(onPressed:() {
+                          context.go('/HomeScreen');
+                        },
+                            icon: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: AppColors.bg
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Icon(Icons.arrow_back_ios,color: AppColors.white,),
+                              ),
+                            )),
                         Text("Men's Shoes",
                             style: GoogleFonts.poppins(
                                 color: Colors.white70,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600)),
-                        _iconBox(Icons.shopping_bag_outlined),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: _iconBox(Icons.shopping_bag_outlined),
+                        ),
                       ],
                     ),
                   ),
 
                   SizedBox(
-                    height:30,
+                    height:300,
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -299,8 +317,8 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
 
   Widget _iconBox(IconData icon) {
     return Container(
-      width: 44,
-      height: 44,
+      width: 40,
+      height: 40,
       decoration: BoxDecoration(
           color:AppColors.bg,
           borderRadius: BorderRadius.circular(30)),

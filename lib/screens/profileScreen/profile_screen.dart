@@ -31,7 +31,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   IconButton(onPressed:() {
                     context.go('/HomeScreen');
                   },
-                    icon: iconBox(GIcons.back),),
+                    icon: Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: AppColors.bg
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 7),
+                        child: Icon(Icons.arrow_back_ios,color: AppColors.white,size: 20,),
+                      ),
+                    )),
                   Text("Profile",
                   style: TextStyle(
                     color:AppColors.white,

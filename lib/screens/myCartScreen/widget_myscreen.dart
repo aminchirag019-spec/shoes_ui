@@ -54,94 +54,120 @@ Widget summaryRow(String title, String value, {bool isBold = false}) {
     ),
   );
 }
-
-Widget optionShoes(){
-  return StatefulBuilder(builder: (context, setState) {
-    return  Expanded(
-      child: ListView.builder(
-        itemCount: cart.length,
-        itemBuilder: (context, index) {
+Widget optionShoes() {
+  return StatefulBuilder(
+    builder: (context, setState) {
+      return Expanded(
+        child: ListView.builder(
+          itemCount: cart.length,
+          itemBuilder: (context, index) {
             final items = cart[index];
-          return Container(
-            height: 100,
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-            decoration: BoxDecoration(
-              color: Color(0xFF1A2530),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              children: [
-                Container(
-                    height:87,
-                    width: 87,
+            return Container(
+              height: 100,
+              padding: EdgeInsets.all(8),
+              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              decoration: BoxDecoration(
+                color: Color(0xFF1A2530),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    height: 84,
+                    width: 84,
                     decoration: BoxDecoration(
-                        color: AppColors.bg,
-                        borderRadius: BorderRadius.circular(16)
+                      color: AppColors.bg,
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Image.asset(items["image"]!, height: 80,fit: BoxFit.contain,)),
-                SizedBox(width: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(items["title"]!,
-                        style: TextStyle(color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600
-                        )),
-                    Text(items["price"]!,
-                        style: TextStyle(color: Colors.white)),
-                    Row(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.asset(
+                        items["image"]!,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                   SizedBox(width: 15),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          height:24,
-                          width: 24,
-                          decoration:BoxDecoration(
-                              color: AppColors.bg,
-                              borderRadius: BorderRadius.circular(20)
+                        Text(
+                          items["title"]!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16, // Adjusted slightly for fit
+                            fontWeight: FontWeight.w600,
                           ),
-                          child: Icon(Icons.remove,size:20 ,color: Colors.white,),
                         ),
-                        SizedBox(width: 10,),
-                        Text("1",style: TextStyle(
-                            fontSize: 10,
-                            color: Colors.white
-                        ),),
-                        SizedBox(width: 10,),
-                        Container(
-                          height:24,
-                          width: 24,
-                          decoration:BoxDecoration(
-                              color: AppColors.bg,
-                              borderRadius: BorderRadius.circular(20)
-                          ),
-                          child: Icon(Icons.add,size:20 ,color: Colors.white,),
+                         SizedBox(height: 4),
+                        Text(
+                          items["price"]!,
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                         SizedBox(height: 8),
+
+                        Row(
+                          children: [
+                            _buildCounterBtn(Icons.remove),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              child: Text(
+                                "1",
+                                style: TextStyle(fontSize: 14, color: Colors.white),
+                              ),
+                            ),
+                            _buildCounterBtn(Icons.add),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(right: 9, bottom: 8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween, // Pushes size to top/center and icon to bottom
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          items["size"]!,
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                        ImageIcon(
+                          AssetImage("assets/images/Icon.png"),
+                          size: 22,
+                          color: Colors.white70,
                         ),
                       ],
-                    )
-                  ],
-                ),
-                SizedBox(width: 140,),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(items["size"]!,
-                      style: TextStyle(
-                          fontSize: 20,
-                        color: Colors.white
-                      ),),
-                    SizedBox(height: 30,),
-                    ImageIcon(AssetImage("assets/images/Icon.png"),size: 20,)
-                  ],
-                )
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  },); 
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
 }
+Widget _buildCounterBtn(IconData icon) {
+  return Container(
+    height: 24,
+    width: 24,
+    alignment: Alignment.center, // PERFECTLY CENTERS THE ICON
+    decoration: BoxDecoration(
+      color: AppColors.bg,
+      shape: BoxShape.circle,
+    ),
+    child: Icon(icon, size: 16, color: Colors.white),
+  );
+}
+
 
 Widget bottomRows(){
   return StatefulBuilder(builder: (context, setState) {
@@ -187,12 +213,15 @@ Widget bottomRows(){
 
 Widget iconBox(IconData icon) {
   return Container(
-    width: 50,
-    height: 50,
+    height: 40,
+    width: 40,
     decoration: BoxDecoration(
-      color: AppColors.bg,
-      borderRadius: BorderRadius.circular(30),
+        color: AppColors.bg,
+        borderRadius: BorderRadius.circular(20)
     ),
-    child: Icon(icon, color: Colors.white70),
+    child:Padding(
+      padding: const EdgeInsets.only(left: 7),
+      child: Icon(Icons.arrow_back_ios,color: AppColors.white,size: 20,),
+    ),
   );
 }

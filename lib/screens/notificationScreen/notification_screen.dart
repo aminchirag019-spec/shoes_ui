@@ -22,14 +22,16 @@ final Items = [
   {
     "image" :"assets/images/NikeClubMaxBlue.png",
     "title" : "We Have New \n Products With Offers",
-    "Price" : "\$364.95  \$260.00",
-    "time"  : "6 mins ago"
+    "Price" : "\$364.95",
+    "time"  : "6 mins ago",
+    "original price" : "\$260.00",
   },
   {
     "image" :"assets/images/NikeAirMax_Orangea_white.png",
     "title" : "We Have New\nProducts With Offers",
-    "Price" : "\$364.95  \$260.00",
-    "time"  : "26 mins ago"
+    "Price" : "\$364.95",
+    "time"  : "26 mins ago",
+    "original price" : "\$260.00",
   },
 ];
 
@@ -37,13 +39,15 @@ final Items2 =[
   {
     "image" :"assets/images/jordan.png",
     "title" : "We Have New \n Products With Offers",
-    "Price" : "\$364.95  \$260.00",
+    "Price" : "\$364.95",
+    "original price" : "\$260.00",
     "time"  : "4 days ago"
   },
   {
     "image" :"assets/images/NikeClubMax.png",
     "title" : "We Have New\nProducts With Offers",
-    "Price" : "\$364.95  \$260.00",
+    "Price" : "\$364.95",
+    "original price" : "\$260.00",
     "time"  : "4 days ago"
   },
 ];
@@ -65,7 +69,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       child: IconButton(onPressed:() {
                         context.go('/HomeScreen');
                       },
-                          icon: iconBox(GIcons.back),)
+                          icon: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: AppColors.bg
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Icon(Icons.arrow_back_ios),
+                            ),
+                          ))
                     ),
                     Text("Notifications",
                     style: TextStyle(
@@ -131,11 +146,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     fontWeight: FontWeight.w600
                                   ),
                                   ),
-                                  Text(item["Price"]!,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: AppColors.white
-                                  ),
+                                  Row(
+                                    children: [
+                                      Text(item["Price"]!,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: AppColors.white
+                                        ),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      Text(item["original price"]!,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: AppColors.grey
+                                        ),
+                                      )
+                                    ],
                                   )
                                 ],
                               ),
@@ -143,7 +169,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0,0,0,50),
                                 child: Text(item["time"]!,style: TextStyle(
-                                  color: AppColors.grey
+                                  color: AppColors.grey,
+                                  fontSize: 12
                                 ),),
                               ), // SizedBox(height: 45,),
                               Padding(
@@ -174,61 +201,75 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
                 SizedBox(
                   height: 200,
-                  child: Expanded(
-                      child:ListView.builder(itemBuilder: (context, index) {
-                        final items = Items2[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Row(
+                  child: ListView.builder(
+                    itemCount: Items2.length,
+                    itemBuilder: (context, index) {
+                    final items = Items2[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 85,
+                            decoration: BoxDecoration(
+                                color: Color(0xff161F28),
+                                borderRadius: BorderRadius.circular(14)
+                            ),
+                            child: Image.asset(items["image"]!,
+                              height: 70,
+                              width: 100,
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 85,
-                                decoration: BoxDecoration(
-                                    color: Color(0xff161F28),
-                                    borderRadius: BorderRadius.circular(14)
-                                ),
-                                child: Image.asset(items["image"]!,
-                                  height: 70,
-                                  width: 100,
+                              Text(items["title"]!,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w600
                                 ),
                               ),
-                              SizedBox(width: 10,),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
                                 children: [
-                                  Text(items["title"]!,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: AppColors.white,
-                                        fontWeight: FontWeight.w600
-                                    ),
-                                  ),
                                   Text(items["Price"]!,
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: AppColors.white
                                     ),
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Text(items["original price"]!,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: AppColors.grey
+                                    ),
                                   )
                                 ],
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,0,50),
-                                child: Text(items["time"]!,style: TextStyle(
-                                    color: AppColors.grey
-                                ),),
-                              ), // SizedBox(height: 45,),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0,0,10,0),
-                                child: Icon(GIcons.fiber,
-                                  color: AppColors.grey,
-                                  size: 10,
-                                ),
                               )
+
                             ],
                           ),
-                        );
-                      },) ),
+                          Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0,0,0,50),
+                            child: Text(items["time"]!,style: TextStyle(
+                                color: AppColors.grey,
+                              fontSize: 13
+                            ),),
+                          ), // SizedBox(height: 45,),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0,0,10,0),
+                            child: Icon(GIcons.fiber,
+                              color: AppColors.grey,
+                              size: 10,
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },),
                 ),
               ],
             ),

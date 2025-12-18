@@ -31,11 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   String? _validateEmail(String? value) {
-    if (value == null || value.trim().isEmpty) {
+    if (value == null || value.trim().isEmpty || !value.contains("@")) {
       return 'Please enter email';
-    }
-    if (!value.contains('@')) {
-      return 'Enter a valid email';
     }
     return null;
   }
@@ -79,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           child: Form(
             key: formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -122,10 +120,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: emailController,
+                  onChanged: (value) {
+                    if (value.isNotEmpty){
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    }
+                  },
                   validator: _validateEmail,
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    hintText: "alissonbecker@gmail.com",
+                    hintText: "Enter your email",
                     hintStyle: const TextStyle(color: Colors.white70),
                     filled: true,
                     fillColor: const Color(0xFF102A43),
@@ -204,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                SizedBox(height: 40),
+                SizedBox(height: 10),
 
                 // Sign In Button
                 SizedBox(
@@ -278,16 +281,11 @@ class _LoginScreenState extends State<LoginScreen> {
 void _onLogin(BuildContext context, dynamic emailController,GlobalKey<FormState>formkey) async {
 // ... validation ...
   if (!formkey.currentState!.validate()) return;
-print("step-1");
 await SharedPrefsHelper().saveData(PrefKeys.isLoggedIn, true);
-  print("step-2");
 await SharedPrefsHelper().saveData(PrefKeys.loginId, emailController.text.trim());
-  print("step-3");
 if (!context.mounted) return;
-  print("step-4");
  GoRouter.of(context).refresh();
-  print("step-5");
   context.push(RouterName.homeScreen.path);
-  print("step-6");
+
 }
 

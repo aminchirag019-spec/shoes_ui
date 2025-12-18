@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class Signupscreen extends StatelessWidget {
   Signupscreen({super.key});
 
-final formkey =GlobalKey<FormState>();
-
+  final formkey = GlobalKey<FormState>();
 
   String? _validateName(String? value) {
     if (value == null || value.trim().isEmpty) {
@@ -39,13 +37,12 @@ final formkey =GlobalKey<FormState>();
     return null;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF0C1A30),
       appBar: AppBar(
-        backgroundColor:Color(0xFF0C1A30),
+        backgroundColor: Color(0xFF0C1A30),
         leading: IconButton(
           icon: CircleAvatar(
             backgroundColor: const Color(0xFF161F28),
@@ -63,10 +60,11 @@ final formkey =GlobalKey<FormState>();
           ),
           child: Form(
             key: formkey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height:40),
+                SizedBox(height: 40),
                 Center(
                   child: Column(
                     children: [
@@ -90,7 +88,7 @@ final formkey =GlobalKey<FormState>();
                   ),
                 ),
 
-                SizedBox(height:70),
+                SizedBox(height: 70),
 
                 // Name Field
                 Text(
@@ -157,7 +155,7 @@ final formkey =GlobalKey<FormState>();
                   ),
                 ),
                 const SizedBox(height: 8),
-                 TextFormField(
+                TextFormField(
                   style: const TextStyle(color: Colors.white),
                   validator: _validatePassword,
                   decoration: InputDecoration(
@@ -167,11 +165,12 @@ final formkey =GlobalKey<FormState>();
                     fillColor: const Color(0xFF102A43),
                     contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 16),
-                   border: OutlineInputBorder(
-                     borderRadius: BorderRadius.circular(30),
-                     borderSide: BorderSide.none,
-                   ),
-                  ),),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 10),
                 SizedBox(height: 40),
                 // Sign In Button

@@ -18,9 +18,7 @@ class BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // White background if open
     final Color navBackgroundColor = isOpen ? Colors.white : AppColors.bg;
-
     return SizedBox(
       height: 110,
       child: Stack(
@@ -39,43 +37,49 @@ class BottomNav extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      NavIcon(
-                        icon: BottomIcons.home,
-                        index: 0,
-                        selected: selectedIndex,
-                        onTap: onTabSelected,
-                        isOpen: isOpen,
-                      ),
-                      const SizedBox(width: 20),
-                      NavIcon(
-                        icon: BottomIcons.fav,
-                        index: 1,
-                        selected: selectedIndex,
-                        onTap: onTabSelected,
-                        isOpen: isOpen,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    child: Row(
+                      children: [
+                        NavIcon(
+                          icon: Icons.home,
+                          index: 0,
+                          selected: selectedIndex,
+                          onTap: onTabSelected,
+                          isOpen: isOpen,
+                        ),
+                        const SizedBox(width: 40),
+                        NavIcon(
+                          icon: BottomIcons.fav,
+                          index: 1,
+                          selected: selectedIndex,
+                          onTap: onTabSelected,
+                          isOpen: isOpen,
+                        ),
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      NavIcon(
-                        icon:BottomIcons.notifi,
-                        index: 2,
-                        selected: selectedIndex,
-                        onTap: onTabSelected,
-                        isOpen: isOpen,
-                      ),
-                      const SizedBox(width: 20),
-                      NavIcon(
-                        icon:BottomIcons.person,
-                        index: 3,
-                        selected: selectedIndex,
-                        onTap: onTabSelected,
-                        isOpen: isOpen,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                    child: Row(
+                      children: [
+                        NavIcon(
+                          icon:BottomIcons.notifi,
+                          index: 2,
+                          selected: selectedIndex,
+                          onTap: onTabSelected,
+                          isOpen: isOpen,
+                        ),
+                        const SizedBox(width: 40),
+                        NavIcon(
+                          icon:BottomIcons.person,
+                          index: 3,
+                          selected: selectedIndex,
+                          onTap: onTabSelected,
+                          isOpen: isOpen,
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -87,7 +91,7 @@ class BottomNav extends StatelessWidget {
               onTap: () {
                 context.go('/MycartScreen');
               },
-              child: Fab(isOpen: isOpen),
+               child: Fab(isOpen: isOpen),
             ),
           ),
         ],

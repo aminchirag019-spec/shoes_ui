@@ -27,7 +27,6 @@ class SharedPrefsHelper {
     return _prefs?.get(key);
   }
 
-  /// Session check (IMPORTANT)
   Future<bool> isLoggedIn() async {
     await init();
 

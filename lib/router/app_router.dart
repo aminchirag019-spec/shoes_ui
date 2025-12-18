@@ -29,10 +29,10 @@ class LastRouteStore {
 }
 
 final GoRouter approuter = GoRouter(
-  initialLocation: RouterName.splashScreen.path,
+  initialLocation: RouterName.sliderScreen.path,
   refreshListenable: AppNetworkService.instance,
   redirect: (context, state) {
-    final isLoggedIn = SharedPrefsHelper().getData(PrefKeys.isLoggedIn) ?? false;
+    final bool isLoggedIn = SharedPrefsHelper().getData(PrefKeys.isLoggedIn) ?? false;
     final isOnline = AppNetworkService.instance.isOnline;
     final path = state.uri.path;
 
@@ -49,15 +49,14 @@ final GoRouter approuter = GoRouter(
     }
 
     if (!isLoggedIn) {
-      if (path != RouterName.loginScreen.path &&
-          path != RouterName.splashScreen.path) {
-        return RouterName.loginScreen.path;
+      if (path == RouterName.homeScreen.path) {
+        return RouterName.sliderScreen.path;
       }
     }
+
     if (isLoggedIn) {
-      if (path == RouterName.splashScreen.path ||
-          path == RouterName.loginScreen.path) {
-        return RouterName.homeScreen.path;
+      if (path == RouterName.sliderScreen.path || path == RouterName.loginScreen.path) {
+        return RouterName.splashScreen.path;
       }
     }
 

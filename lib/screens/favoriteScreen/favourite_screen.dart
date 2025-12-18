@@ -29,7 +29,18 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                   IconButton(onPressed:() {
                     context.go('/HomeScreen');
                   },
-                      icon:iconBox(GIcons.back),),
+                      icon:Container(
+                        height: 45,
+                        width: 45,
+                        decoration: BoxDecoration(
+                          color: AppColors.bg,
+                          borderRadius: BorderRadius.circular(20)
+                        ),
+                        child:Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Icon(Icons.arrow_back_ios,color: AppColors.white,),
+                        ),
+                      ),),
                   Text(
                     "Favourite",
                     style: GoogleFonts.poppins(
