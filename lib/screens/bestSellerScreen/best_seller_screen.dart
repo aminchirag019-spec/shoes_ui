@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:task_1/router/router_class.dart';
 import 'package:task_1/screens/bestSellerScreen/widget_seller.dart';
 import 'package:task_1/screens/detailsScreen/widget_details.dart';
 import 'package:task_1/utilities/colors.dart';
+import 'package:task_1/utilities/media_query.dart';
+
+import '../widgets/app_bar.dart';
 
 class BestSellerScreen extends StatefulWidget {
   const BestSellerScreen({super.key});
@@ -21,24 +26,25 @@ class _BestSellerScreenState extends State<BestSellerScreen> {
           child: Column(
             children: [
               Row(
-               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  iconBox(Icons.arrow_back),
-                  SizedBox(width: 110,),
+                  IconButton(onPressed: () {
+                    context.push(RouterName.homeScreen.path);
+                  }, icon:  iconBox(Icons.arrow_back_ios),),
+                  SizedBox(width:width(context)*0.21,),
                   Text("Best Sellers",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white
                   ),
                   ),
-                  SizedBox(width: 55,),
-                  Icon(Icons.settings),
-                  SizedBox(width: 15,),
-                  iconBox(Icons.search)
+                  SizedBox(width:width(context)*0.15,),
+                  ImageIcon(AssetImage("assets/images/Filter.png"),color: Colors.white,),
+                  SizedBox(width:width(context)*0.05,),
+                   ImageIcon(AssetImage("assets/images/search.png"),color: Colors.white,),
                 ],
               ),
               SizedBox(height: 15,),
-              shoesOptions2()
+              Expanded(child:shoesOptions2())
             ],
           ),
         ),

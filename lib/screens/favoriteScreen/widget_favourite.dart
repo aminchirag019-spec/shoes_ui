@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_1/utilities/media_query.dart';
 
 import '../../utilities/colors.dart';
-
 
 final items = [
   {
@@ -30,90 +30,128 @@ final items = [
     "price": "\$57.6",
   }
 ];
+Widget shoesOptions() {
+  return GridView.builder(
+    itemCount: items.length,
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      crossAxisSpacing: 16,
+      mainAxisSpacing: 16,
+      childAspectRatio: 0.72,
+    ),
+    itemBuilder: (context, index) {
+      final item = items[index];
+      final screenWidth = MediaQuery.of(context).size.width;
 
-
-Widget shoesOptions(){
-  return StatefulBuilder(builder: (context, setState) {
-    return Expanded(
-      child: GridView.builder(
-        itemCount: items.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 21,
-          mainAxisSpacing: 20,
-          childAspectRatio: 0.68,
-        ),
-        itemBuilder: (context, index) {
-          final item = items[index];
-          final image = item['image'] as String;
-          final title = item['title'] as String;
-          final name = item['Name'] as String;
-          final price = item['price'] as String;
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          final cardWidth = constraints.maxWidth;
+          final imageSize = cardWidth * 0.65;
+          final titleSize = screenWidth * 0.028;
+          final nameSize = screenWidth * 0.04;
+          final priceSize = screenWidth * 0.035;
 
           return Container(
             decoration: BoxDecoration(
               color: AppColors.bg,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(18),
             ),
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Stack(
               children: [
-                Center(
-                  child: Image.asset(
-                    image,
-                    height: 100,
-                    fit: BoxFit.contain,
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 8),
+
+                      /// Product Image
+                      Center(
+                        child: Image.asset(
+                          item['image']!,
+                          height: imageSize,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+
+                      const Spacer(),
+
+                      /// Best Seller
+                      Text(
+                        item['title']!.toUpperCase(),
+                        style: GoogleFonts.poppins(
+                          color: Colors.blueAccent,
+                          fontSize: titleSize,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+
+                      const SizedBox(height: 4),
+
+                      /// Product Name
+                      Text(
+                        item['Name']!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: nameSize,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      /// Price + Colors
+                      Row(
+                        children: [
+                          Text(
+                            item['price']!,
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: priceSize,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const Spacer(),
+                          const CircleAvatar(
+                            radius: 6,
+                            backgroundColor: Color(0xFFFCF596),
+                          ),
+                          const SizedBox(width: 6),
+                          const CircleAvatar(
+                            radius: 6,
+                            backgroundColor: Color(0xFF67D4C4),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                Spacer(),
-                Text(
-                  title,
-                  style: GoogleFonts.poppins(
-                    color: Color(0xFF5B9EE1),
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  name,
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(height: 10,),
-                Text(
-                  price,
-                  style: GoogleFonts.poppins(
-                    color: Colors.greenAccent,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
+
+                /// Favorite Icon
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.06),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.favorite_border,
+                      color: Colors.redAccent,
+                      size: 16,
+                    ),
                   ),
                 ),
               ],
             ),
           );
         },
-      ),
-    );
-  },);
-}
-
-
-
-
-Widget iconBox(IconData icon) {
-  return Container(
-    width: 50,
-    height: 50,
-    decoration: BoxDecoration(
-      color: AppColors.bg,
-      borderRadius: BorderRadius.circular(30),
-    ),
-    child: Icon(icon, color: Colors.white70),
+      );
+    },
   );
 }
-
-

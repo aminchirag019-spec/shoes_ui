@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:go_router/go_router.dart';
-import 'package:task_1/screens/homeScreen/home_screen.dart';
-import 'package:task_1/screens/homeScreen/widget_home.dart';
-import 'package:task_1/screens/widgets/zoom_drawer.dart';
+import 'package:task_1/router/router_class.dart';
 import 'package:task_1/utilities/colors.dart';
-import 'bottomNavbar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:go_router/go_router.dart';
-import 'package:task_1/utilities/colors.dart';
-// Uncomment this
+
 
 class NavIcon extends StatelessWidget {
   final IconData icon;
   final int index;
   final int selected;
   final Function(int) onTap;
-  final bool isOpen; // Added to switch icon color
+  final bool isOpen; //// Added to switch icon color
 
   const NavIcon({
     super.key,
@@ -37,9 +29,6 @@ class NavIcon extends StatelessWidget {
       child: Icon(
         icon,
         size: 22,
-        // If selected: Blue.
-        // If Open (White BG) -> Unselected is Dark Grey.
-        // If Closed (Dark BG) -> Unselected is Light Grey.
         color: isSelected
             ? const Color(0xFF5AA8FF)
             : (isOpen ? Colors.black54 : const Color(0xFF93A3AD)),
@@ -61,19 +50,13 @@ class Fab extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.5),
-            blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
         ],
       ),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Outer ring: White if drawer is open, Dark Blue if closed
           CircleAvatar(
-            radius: 36,
+            radius: 1,
             backgroundColor: isOpen ? Colors.white : const Color(0xFF1E2A33),
           ),
           CircleAvatar(
@@ -88,6 +71,86 @@ class Fab extends StatelessWidget {
   }
 }
 
+class OldCustomBottomBar extends StatelessWidget {
+  final int selectedIndex;
+  final Function(int) onTap;
+  final VoidCallback onProfileTap;
+  final bool isOpen;
+
+  const OldCustomBottomBar({
+    super.key,
+    required this.selectedIndex,
+    required this.onTap,
+    required this.onProfileTap,
+    required this.isOpen,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return  SizedBox(
+      height: 90, // 🔥 increase height to allow FAB overflow
+      child: CustomPaint(
+        painter: NavBarPainter(   color: isOpen ? Colors.white : const Color(0xff161F28),),
+        child: SafeArea(
+          top: false,
+          child: Stack(
+            clipBehavior: Clip.none, // ✅ IMPORTANT
+            alignment: Alignment.bottomCenter,
+            children: [
+
+              /// 🔹 ICON ROW
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _item(Icons.home_outlined, 0),
+                    _item(Icons.favorite_border_outlined, 1),
+
+                    const SizedBox(width: 72),
+
+                    _item(Icons.notifications_rounded, 2),
+                    GestureDetector(
+                      onTap: onProfileTap,
+                      child: Image.asset(
+                        "assets/images/user.png",
+                        width: 26,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              /// 🔥 FAB (NOW VISIBLE)
+              Positioned(
+                top: -20, // adjust freely now
+                child: GestureDetector(
+                    onTap: () {
+                    context.push(RouterName.mycartScreen.path);
+                    },
+                    child: Fab(isOpen: true,)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+  }
+
+  Widget _item(IconData icon, int index) {
+    final bool active = selectedIndex == index;
+
+    return GestureDetector(
+      onTap: () => onTap(index),
+      child: Icon(
+        icon,
+        size: 26,
+        color: active ? Colors.blue : Colors.grey,
+      ),
+    );
+  }
+}
 
 
 
@@ -112,7 +175,7 @@ class NavBarPainter extends CustomPainter {
     final Path path = Path();
 
     final double fabRadius = 36;
-    final double notchRadius = fabRadius + 12;
+    final double notchRadius = fabRadius + 15;
     final double notchDepth = 38;
     final double centerX = size.width / 2;
     const double topCurve = -26;

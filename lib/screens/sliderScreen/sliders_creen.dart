@@ -15,7 +15,7 @@ class _SliderScreen extends State<SliderScreen> {
 
   final List<Map<String, String>> sliderData = [
     {
-      "image": "assets/images/Group 285 (1).png",
+      "image": "assets/images/Imag.png",
       "title": "Start Journey\nWith Nike",
       "subtitle": "Smart, Gorgeous & Fashionable\nCollection"
     },
@@ -60,7 +60,7 @@ class _SliderScreen extends State<SliderScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Spacer(flex: 2),
+                        Spacer(flex: 5),
                         Center(
                           child: Image.asset(
                             item["image"]!,
@@ -68,14 +68,14 @@ class _SliderScreen extends State<SliderScreen> {
                             fit: BoxFit.contain,
                           ),
                         ),
-                         Spacer(flex: 2),
+                         Spacer(flex: 1),
                         Text(
                           item["title"]!,
                           style:  TextStyle(
                             color: Colors.white,
-                            fontSize: 40,
+                            fontSize: 50,
                             fontWeight: FontWeight.w600,
-                            height: 1.2,
+                            height: 1.3,
                           ),
                         ),
                         const SizedBox(height: 15),
@@ -83,7 +83,7 @@ class _SliderScreen extends State<SliderScreen> {
                           item["subtitle"]!,
                           style: const TextStyle(
                             color: Colors.grey,
-                            fontSize: 18,
+                            fontSize: 20,
                             height: 1.4,
                           ),
                         ),

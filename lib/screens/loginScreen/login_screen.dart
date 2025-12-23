@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:task_1/main.dart';
 import 'package:task_1/router/router_class.dart';
 import 'package:task_1/screens/homeScreen/home_screen.dart';
+import 'package:task_1/screens/loginScreen/widget_login.dart';
+import 'package:task_1/screens/widgets/app_bar.dart';
+import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/media_query.dart';
 import '../../session/session_class.dart';
 import '../../session/session_key.dart';
@@ -16,12 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final formKey = GlobalKey<FormState>();
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -30,247 +28,142 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  String? _validateEmail(String? value) {
-    if (value == null || value.trim().isEmpty || !value.contains("@")) {
-      return 'Please enter email';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.trim().isEmpty) {
-      return 'Please enter password';
-    }
-    if (value.trim().length < 6) {
-      return 'Password must be at least 6 characters';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0C1A30),
-      appBar: AppBar(
-        backgroundColor: Color(0xFF0C1A30),
-        leading: IconButton(
-          icon: CircleAvatar(
-            backgroundColor: const Color(0xFF161F28),
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white70,
-              size: 18,
-            ),
-          ),
-          onPressed: () => context.pop(), // was Get.back()
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(
-            horizontal: 45,
-            vertical: 40,
-          ),
-          child: Form(
-            key: formKey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Back Button
-
-                SizedBox(height: screenHeight * 0.04),
-
-                Center(
+      backgroundColor: const Color(0xFF1A2530),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SafeArea(
+          child: Column(
+            children: [
+             Padding(
+               padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+               child: Row(
+                 children: [
+                   iconBox(Icons.arrow_back_ios),
+                 ],
+               ),
+             ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Form(
+                  key: formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Hello Again!",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
+                      SizedBox(height:height(context)*0.06),
+                      Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Hello Again!",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              "Welcome Back You’ve Been Missed!",
+                              style: GoogleFonts.poppins(
+                                color: AppColors.grey,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 8),
+
+                      SizedBox(height: 60),
+
+                      // Email Field
                       Text(
-                        "Welcome Back You’ve Been Missed!",
+                        "Email Address",
                         style: GoogleFonts.poppins(
-                          color: Colors.white70,
-                          fontSize: 14,
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                       SizedBox(height: 8),
+                      emailField(context),/// Email field
+                       SizedBox(height: 30),
+                      Text(
+                        "Password",
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                       SizedBox(height: 10),
+                      passwordField(),/// Password field
+                       SizedBox(height: 10),
+
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            context.push(RouterName.forgotPassScreen.path);
+                          },
+                          child: Text(
+                            "Recovery Password",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white54,
+                              fontSize: 13,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: 10),
+                      // Sign In Button
+                      signInButton(),
+                       SizedBox(height: 20),
+
+                      Image.asset(
+                        "assets/images/Button.png",
+                        height: 60,
+                        width: 500,
+                        fit: BoxFit.fill,
+                      ),
+
+                      SizedBox(height:140),
+
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            context.push(RouterName.signupScreen.path);
+                          },
+                          child: Text.rich(
+                            TextSpan(
+                              text: "Don’t Have An Account? ",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white54,
+                                fontSize: 13,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: "Sign Up For Free",
+                                  style: GoogleFonts.poppins(
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-
-                SizedBox(height: 60),
-
-                // Email Field
-                Text(
-                  "Email Address",
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: emailController,
-                  onChanged: (value) {
-                    if (value.isNotEmpty){
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                    }
-                  },
-                  validator: _validateEmail,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: "Enter your email",
-                    hintStyle: const TextStyle(color: Colors.white70),
-                    filled: true,
-                    fillColor: const Color(0xFF102A43),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 16,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // Password Field
-                Text(
-                  "Password",
-                  style: GoogleFonts.poppins(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: passwordController,
-                  obscureText: _obscurePassword,
-                  validator: _validatePassword,
-                  style: const TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                    hintStyle: const TextStyle(color: Colors.white70),
-                    filled: true,
-                    fillColor: const Color(0xFF102A43),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 16,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: Colors.white54,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      // navigate to forgot password screen
-                      context.push('/ForgotPassScreen');
-                    },
-                    child: Text(
-                      "Recovery Password",
-                      style: GoogleFonts.poppins(
-                        color: Colors.white54,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 10),
-
-                // Sign In Button
-                SizedBox(
-                  width: double.infinity,
-                  height: 55,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _onLogin(context,emailController,formKey);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF4C8BF5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                    ),
-                    child: Text(
-                      "Sign In",
-                      style: GoogleFonts.poppins(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                Image.asset(
-                  "assets/images/Button.png",
-                  height: 60,
-                  width: double.infinity,
-                ),
-
-                SizedBox(height: screenHeight * 0.15),
-
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      context.push('/SignupScreen');
-                    },
-                    child: Text.rich(
-                      TextSpan(
-                        text: "Don’t Have An Account? ",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white54,
-                          fontSize: 13,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: "Sign Up For Free",
-                            style: GoogleFonts.poppins(
-                              color: Colors.blueAccent,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -278,14 +171,5 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-void _onLogin(BuildContext context, dynamic emailController,GlobalKey<FormState>formkey) async {
-// ... validation ...
-  if (!formkey.currentState!.validate()) return;
-await SharedPrefsHelper().saveData(PrefKeys.isLoggedIn, true);
-await SharedPrefsHelper().saveData(PrefKeys.loginId, emailController.text.trim());
-if (!context.mounted) return;
- GoRouter.of(context).refresh();
-  context.push(RouterName.homeScreen.path);
 
-}
 

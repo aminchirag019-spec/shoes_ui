@@ -5,6 +5,8 @@ import 'package:task_1/screens/detailsScreen/widget_details.dart';
 import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/icons.dart';
 
+import '../widgets/app_bar.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -31,25 +33,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   IconButton(onPressed:() {
                     context.go('/HomeScreen');
                   },
-                    icon: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: AppColors.bg
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 7),
-                        child: Icon(Icons.arrow_back_ios,color: AppColors.white,size: 20,),
-                      ),
-                    )),
-                  Text("Profile",
-                  style: TextStyle(
-                    color:AppColors.white,
-                    fontSize:20
+                      icon:iconBox(GIcons.back,)
                   ),
+                  Text(
+                    "Profile",
+                    style: GoogleFonts.poppins(
+                      color: Colors.white70,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  Icon(GIcons.edit,size: 30,)
+                  IconButton(onPressed:() => context,
+                      icon: ImageIcon(AssetImage("assets/images/edit.png",),color: AppColors.blue,))
                 ],
               ),
               SizedBox(height: 15,),

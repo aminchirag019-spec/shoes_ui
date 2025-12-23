@@ -32,34 +32,31 @@ final GoRouter approuter = GoRouter(
   initialLocation: RouterName.sliderScreen.path,
   refreshListenable: AppNetworkService.instance,
   redirect: (context, state) {
-    final bool isLoggedIn = SharedPrefsHelper().getData(PrefKeys.isLoggedIn) ?? false;
+    final bool isLoggedIn =
+        SharedPrefsHelper().getData(PrefKeys.isLoggedIn) ?? false;
     final isOnline = AppNetworkService.instance.isOnline;
     final path = state.uri.path;
 
     if (isOnline && path != RouterName.splashScreen.path) {
       LastRouteStore.lastPath = path;
     }
-
     if (!isOnline && path != RouterName.splashScreen.path) {
       return RouterName.splashScreen.path;
     }
-
     if (isOnline && path == RouterName.splashScreen.path) {
       return LastRouteStore.lastPath;
     }
-
     if (!isLoggedIn) {
       if (path == RouterName.homeScreen.path) {
         return RouterName.sliderScreen.path;
       }
     }
-
     if (isLoggedIn) {
-      if (path == RouterName.sliderScreen.path || path == RouterName.loginScreen.path) {
-        return RouterName.splashScreen.path;
+      if (path == RouterName.sliderScreen.path ||
+          path == RouterName.loginScreen.path) {
+        return RouterName.homeScreen.path;
       }
     }
-
     return null;
   },
   routes: [
@@ -88,19 +85,19 @@ final GoRouter approuter = GoRouter(
           path: RouterName.homeScreen.path,
           builder: (context, state) => HomeScreen(),
         ),
-        GoRoute(
-          path: RouterName.favouriteScreen.path,
-          builder: (context, state) => FavouriteScreen(),
-        ),
-        GoRoute(
-          path: RouterName.notificationScreen.path,
-          builder: (context, state) => NotificationScreen(),
-        ),
-        GoRoute(
-          path: RouterName.profileScreen.path,
-          builder: (context, state) => ProfileScreen(),
-        ),
       ],
+    ),
+    GoRoute(
+      path: RouterName.notificationScreen.path,
+      builder: (context, state) => NotificationScreen(),
+    ),
+    GoRoute(
+      path: RouterName.profileScreen.path,
+      builder: (context, state) => ProfileScreen(),
+    ),
+    GoRoute(
+      path: RouterName.favouriteScreen.path,
+      builder: (context, state) => FavouriteScreen(),
     ),
     GoRoute(
       path: RouterName.detailsScreen.path,

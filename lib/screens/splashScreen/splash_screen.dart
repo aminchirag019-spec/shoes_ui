@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:task_1/router/router_class.dart';
 import 'package:task_1/session/session_class.dart';
 import 'package:task_1/utilities/colors.dart';
@@ -41,10 +42,17 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text("Welcome to our shoes company",
+            style: GoogleFonts.roboto(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+              color: AppColors.white
+            )
+            ),
             Image.asset(
-              'assets/images/shoes_2.png',
+              'assets/images/Imag.png',
               width: width(context)*0.5,
-              height: 250,
+              height: 300,
               fit: BoxFit.contain,
             ),
             const SizedBox(height: 20),

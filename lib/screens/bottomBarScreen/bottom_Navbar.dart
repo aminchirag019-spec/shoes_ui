@@ -1,4 +1,4 @@
-// lib/screens/widgets/bottomNavbar.dart
+// lib/screens/widgets/bottom_Navbar.dart
 import 'package:flutter/material.dart';
 
 class BottomNav extends StatelessWidget {

@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:task_1/screens/detailsScreen/widget_details.dart';
 import 'package:task_1/utilities/colors.dart';
 
+import '../widgets/app_bar.dart';
+
 class AccountSettingScreen extends StatefulWidget {
   const AccountSettingScreen({super.key});
 
@@ -29,7 +31,7 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                     },
                         icon: iconBox(Icons.arrow_back_ios),),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 90),
+                      padding: const EdgeInsets.symmetric(horizontal: 60),
                       child: Text("Account & Settings",
                       style: TextStyle(
                         color: Colors.white,

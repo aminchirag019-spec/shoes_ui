@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:task_1/screens/detailsScreen/widget_details.dart';
 import 'package:task_1/screens/favoriteScreen/widget_favourite.dart' hide iconBox;
 import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/icons.dart';
+import 'package:task_1/utilities/media_query.dart';
+
+import '../widgets/app_bar.dart';
 
 
 class NotificationScreen extends StatefulWidget {
@@ -64,39 +68,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-                      child: IconButton(onPressed:() {
-                        context.go('/HomeScreen');
-                      },
-                          icon: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: AppColors.bg
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Icon(Icons.arrow_back_ios),
-                            ),
-                          ))
+                    IconButton(onPressed:() {
+                      context.go('/HomeScreen');
+                    },
+                        icon:iconBox(GIcons.back,)
                     ),
-                    Text("Notifications",
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600
-                    ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text("Clear All",
-                      style: TextStyle(
-                        color: AppColors.blue,
-                      ),
+                    Text(
+                      "Notifications",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white70,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
+                  Text("Clear All",
+                  style: TextStyle(
+                    color: AppColors.blue,
+                    fontSize: 16
+                  ),
+                  )
                   ],
                 ),
                 Padding(
@@ -114,7 +104,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 200,
+                  height: height(context)*0.25,
                   child: Expanded(
                       child:ListView.builder(
                         itemCount: 2,
@@ -125,14 +115,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           child: Row(
                             children: [
                               Container(
-                                height: 85,
+                                height:height(context)*0.1,
                                 decoration: BoxDecoration(
                                 color: Color(0xff161F28),
                                   borderRadius: BorderRadius.circular(14)
                                 ),
                                 child: Image.asset(item["image"]!,
-                                  height: 70,
-                                  width: 100,
+                                  height: height(context)*0.07,
+                                  width: width(context)*0.25,
                                 ),
                               ),
                               SizedBox(width: 10,),
@@ -200,7 +190,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 200,
+                  height:height(context)*0.3,
                   child: ListView.builder(
                     itemCount: Items2.length,
                     itemBuilder: (context, index) {

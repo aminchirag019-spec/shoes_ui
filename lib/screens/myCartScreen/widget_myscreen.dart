@@ -210,18 +210,3 @@ Widget bottomRows(){
     );
   },);
 }
-
-Widget iconBox(IconData icon) {
-  return Container(
-    height: 40,
-    width: 40,
-    decoration: BoxDecoration(
-        color: AppColors.bg,
-        borderRadius: BorderRadius.circular(20)
-    ),
-    child:Padding(
-      padding: const EdgeInsets.only(left: 7),
-      child: Icon(Icons.arrow_back_ios,color: AppColors.white,size: 20,),
-    ),
-  );
-}

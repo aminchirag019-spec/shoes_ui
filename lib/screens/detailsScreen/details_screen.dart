@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_1/router/router_class.dart';
 import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/media_query.dart';
+
+import '../../utilities/icons.dart';
+import '../widgets/app_bar.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});
@@ -11,14 +15,33 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _ShoeDetailNoSliversState extends State<DetailsScreen> {
-  final thumbs = [
-    'assets/images/Imag.png',
-    'assets/images/Imag.png',
-    'assets/images/Imag.png',
+  final List<String> galleryOwners = [
+    'assets/images/Imag.png',   // Owner0
+    'assets/images/shoes_1.png', // Owner 1
+    'assets/images/NikeAirJordan_Orange.png',  // Owner 2
   ];
+
+// The specific lists owned by each gallery item
+  final Map<int, List<String>> ownerLookbooks = {
+    0: [
+      'assets/images/Imag.png',
+      'assets/images/shoes_1.png',
+    ],
+    1: [
+      'assets/images/shoes_1.png',
+      'assets/images/NikeAirJordan_Orange.png',
+    ],
+    2: [
+      'assets/images/NikeAirJordan_Orange.png',
+      'assets/images/shoes_1.png',
+    ],
+  };
+
+  int activeOwnerIndex = 0;
+
   final sizes = [38, 39, 40, 41, 42, 43];
 
-  int selectedThumb = 0;
+  Set<int> selectedThumb = {0};
   int selectedSize = 40;
   final PageController pageController = PageController(viewportFraction: 0.86);
 
@@ -26,6 +49,11 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
   void dispose() {
     pageController.dispose();
     super.dispose();
+  }
+  void onOwnerChanged(int newIndex) {
+    setState(() {
+      activeOwnerIndex = newIndex;
+    });
   }
 
   @override
@@ -36,76 +64,62 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            // Main scrollable content
             SingleChildScrollView(
               child: Column(
                 children: [
-                  // Top app row
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 18, vertical: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(onPressed:() {
-                          context.go('/HomeScreen');
+                          context.go(RouterName.homeScreen.path);
                         },
+                            icon:iconBox(GIcons.back,)
+                        ),
+                        Text(
+                          "Men's Shoes",
+                          style: GoogleFonts.poppins(
+                            color: Colors.white70,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        IconButton(onPressed:() => context,
                             icon: Container(
-                              height: 40,
-                              width: 40,
+                              height: 44,
+                              width: 44,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: AppColors.bg
+                                  color: AppColors.bg,
+                                  borderRadius: BorderRadius.circular(30)
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Icon(Icons.arrow_back_ios,color: AppColors.white,),
-                              ),
-                            )),
-                        Text("Men's Shoes",
-                            style: GoogleFonts.poppins(
-                                color: Colors.white70,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600)),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: _iconBox(Icons.shopping_bag_outlined),
-                        ),
+                              child:ImageIcon(AssetImage("assets/images/Frame.png",),color: AppColors.white,),
+                            ))
                       ],
                     ),
                   ),
-
                   SizedBox(
-                    height:300,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        PageView.builder(
-                          controller: pageController,
-                          itemCount: thumbs.length,
-                          onPageChanged: (p) =>
-                              setState(() => selectedThumb = p),
-                          itemBuilder: (context, index) {
-                            final scale = index == selectedThumb ? 1.0 : 0.9;
-                            return AnimatedScale(
-                              duration: const Duration(milliseconds: 220),
-                              scale: scale,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 12.0),
-                                child: Image.asset(thumbs[index],
-                                    width: width(context)*0.28, fit: BoxFit.contain),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                    height: 300,
+                    child: PageView.builder(
+                      key: ValueKey(activeOwnerIndex),
+                      controller: pageController,
+                      itemCount: ownerLookbooks[activeOwnerIndex]?.length,
+                      itemBuilder: (context, index) {
+                        final images = ownerLookbooks[activeOwnerIndex]!;
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Image.asset(
+                            images[index],
+                            fit: BoxFit.contain,
+                          ),
+                        );
+                      },
                     ),
                   ),
-
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: AppColors.bg,
+                      color: Color(0xff161F28),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Column(
@@ -123,63 +137,60 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
                                   style: GoogleFonts.poppins(
                                       color: Colors.white70, fontSize: 11)),
                             ),
-                            const Spacer(),
+                             Spacer(),
                             Text('\$967.800',
                                 style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700)),
                           ],
                         ),
-                        const SizedBox(height: 12),
+                         SizedBox(height: 12),
                         Text('Nike Air Jordan',
                             style: GoogleFonts.poppins(
                                 color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700)),
-                        const SizedBox(height: 8),
+                         SizedBox(height: 8),
                         Text(
                           'Air Jordan is an American brand of basketball shoes athletic, casual, and style clothing produced by Nike....',
                           style: GoogleFonts.poppins(
                               color: Colors.white60, height: 1.4),
                         ),
-                        const SizedBox(height: 16),
+                         SizedBox(height: 16),
 
                         Text('Gallery',
                             style: GoogleFonts.poppins(
                                 color: Colors.white70,
                                 fontWeight: FontWeight.w600)),
-                        const SizedBox(height: 8),
+                         SizedBox(height: 8),
                         SizedBox(
                           height: 68,
                           child: ListView.separated(
                             scrollDirection: Axis.horizontal,
-                            itemCount: thumbs.length,
-                            separatorBuilder: (_, __) =>
-                                const SizedBox(width: 12),
+                            itemCount: galleryOwners.length,
+                            separatorBuilder: (_, __) =>  SizedBox(width: 12),
                             itemBuilder: (context, i) {
-                              final isActive = i == selectedThumb;
+                              // Highlight if this is the active owner
+                              final isActive = activeOwnerIndex == i;
+
                               return GestureDetector(
                                 onTap: () {
-                                  pageController.animateToPage(i,
-                                      duration:
-                                          const Duration(milliseconds: 300),
-                                      curve: Curves.easeOut);
-                                  setState(() => selectedThumb = i);
+                                  setState(() {
+                                    activeOwnerIndex = i;
+                                  });
+                                  pageController.jumpToPage(0);
                                 },
                                 child: AnimatedContainer(
-                                  duration: const Duration(milliseconds: 200),
-                                  padding: const EdgeInsets.all(6),
+                                  duration:  Duration(milliseconds: 200),
+                                  padding:  EdgeInsets.all(6),
                                   decoration: BoxDecoration(
-                                    color: isActive
-                                        ? const Color(0xFF11343D)
-                                        : Colors.transparent,
+                                    color: isActive ?  Color(0xFF11343D) : Colors.transparent,
                                     borderRadius: BorderRadius.circular(12),
                                     border: isActive
-                                        ? Border.all(
-                                            color: AppColors.accent, width: 2)
+                                        ? Border.all(color: AppColors.accent, width: 2)
                                         : Border.all(color: Colors.white10),
                                   ),
-                                  child: Image.asset(thumbs[i], width: 56),
+                                  child: Image.asset(galleryOwners[i], width: 56),
                                 ),
                               );
                             },
@@ -187,7 +198,6 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
                         ),
 
                         const SizedBox(height: 16),
-                        // Size row
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -211,34 +221,32 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
                           ],
                         ),
                         const SizedBox(height: 10),
-
-                        // Size selection (ChoiceChip) -- simple and accessible
                         Wrap(
                           spacing: 10,
                           children: sizes.map((s) {
                             final active = s == selectedSize;
                             return ChoiceChip(
+                              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 15),
+                              labelPadding: const EdgeInsets.symmetric(horizontal: 8),
+
                               label: Text('$s',
                                   style: GoogleFonts.poppins(
-                                      color: active
-                                          ? Colors.white
-                                          : Colors.blue,
-                                      fontWeight: FontWeight.w600)),
+                                      fontSize: 16,
+                                      color: active ? Colors.white : Color(0xff707B81),
+                                  )),
                               selected: active,
                               selectedColor: AppColors.accent,
-                               backgroundColor:AppColors.bg,
+                              backgroundColor:Color(0xff1A2530),
+                              side: BorderSide.none,
                               shape: RoundedRectangleBorder(
-                                  borderRadius:BorderRadiusGeometry.circular(50)),
-                              disabledColor: Colors.transparent,
-                              onSelected: (_) =>
-                                  setState(() => selectedSize = s),
+                                  borderRadius: BorderRadius.circular(30)),
+                              onSelected: (_) => setState(() => selectedSize = s),
                             );
+
                           }).toList(),
                         ),
 
                         const SizedBox(height: 18),
-
-                        // small features row to mimic original look
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

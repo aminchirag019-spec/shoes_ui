@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_1/router/router_class.dart';
 import 'package:task_1/screens/favoriteScreen/favourite_screen.dart';
 import 'package:task_1/screens/myCartScreen/widget_myscreen.dart';
 import 'package:task_1/utilities/media_query.dart';
 
 import '../../utilities/colors.dart';
+import '../widgets/app_bar.dart';
 
 class MycartScreen extends StatefulWidget {
   const MycartScreen({super.key});
@@ -13,8 +15,6 @@ class MycartScreen extends StatefulWidget {
   @override
   State<MycartScreen> createState() => _MycartScreenState();
 }
-
-
 
 class _MycartScreenState extends State<MycartScreen> {
   @override
@@ -29,10 +29,11 @@ class _MycartScreenState extends State<MycartScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 children: [
-                  IconButton(onPressed:() {
-                    context.push('/HomeScreen');
-                  },
-                      icon: iconBox(Icons.arrow_back)),
+                  IconButton(
+                      onPressed: () {
+                        context.go(RouterName.homeScreen.path);
+                      },
+                      icon: iconBox(Icons.arrow_back_ios)),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 100),
                     child: Text(
@@ -46,19 +47,17 @@ class _MycartScreenState extends State<MycartScreen> {
                 ],
               ),
             ),
-           optionShoes(),
+            optionShoes(),
             Column(
               children: [
-                   Container(
-                    height: 300,
-                    width:width(context)*1,
-                    decoration: BoxDecoration(
+                Container(
+                  height: 300,
+                  width: width(context) * 1,
+                  decoration: BoxDecoration(
                       color: AppColors.bg,
-                      borderRadius: BorderRadius.circular(30)
-                    ),
-                    child: bottomRows(),
-                  ),
-
+                      borderRadius: BorderRadius.circular(30)),
+                  child: bottomRows(),
+                ),
               ],
             )
           ],
@@ -67,4 +66,3 @@ class _MycartScreenState extends State<MycartScreen> {
     );
   }
 }
-

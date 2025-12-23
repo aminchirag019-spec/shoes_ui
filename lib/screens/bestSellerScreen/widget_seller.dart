@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_1/utilities/media_query.dart';
 
 import '../../utilities/colors.dart';
 import '../favoriteScreen/widget_favourite.dart';
@@ -10,7 +11,7 @@ final items3 = [
     "title": "Best Seller",
     "tag": "Men's Shoes",
     "Name": "Nike Jordan",
-    "price": "\$58.7",
+    "price": "\$583.7",
     "color": [Color(0xff4EE8CC), Color(0xff92CAFF)]
   },
   {
@@ -18,7 +19,7 @@ final items3 = [
     "title": "Best Seller",
     "tag": "Men's Shoes",
     "Name": "Nike Air Max",
-    "price": "\$37.8",
+    "price": "\$373.8",
     "color": [Color(0xff4EE8CC), Color(0xff92CAFF)]
   },
   {
@@ -26,7 +27,7 @@ final items3 = [
     "title": "Best Seller",
     "tag": "Men's Shoes",
     "Name": "Nike Club Max",
-    "price": "\$47.7",
+    "price": "\$473.7",
     "color": [Color(0xff4EE8CC), Color(0xff92CAFF)]
   },
   {
@@ -34,7 +35,7 @@ final items3 = [
     "title": "Best Seller",
     "tag": "Men's Shoes",
     "Name": "Nike Jordan",
-    "price": "\$57.6",
+    "price": "\$573.6",
     "colors": [Color(0xff4EE8CC), Color(0xff92CAFF)]
   },
   {
@@ -42,7 +43,7 @@ final items3 = [
     "title": "Best Seller",
     "tag": "Men's Shoes",
     "Name": "Nike Jordan",
-    "price": "\$57.6",
+    "price": "\$573.6",
     "colors": [Color(0xff4EE8CC), Color(0xff92CAFF)]
   },
   {
@@ -50,97 +51,113 @@ final items3 = [
     "title": "Best Seller",
     "tag": "Men's Shoes",
     "Name": "Nike Jordan",
-    "price": "\$57.6",
+    "price": "\$573.6",
     "colors": [Color(0xff4EE8CC), Color(0xff92CAFF)]
   }
 ];
-
 Widget shoesOptions2() {
-  return StatefulBuilder(
-    builder: (context, setState) {
-      return Expanded(
-        child: GridView.builder(
-          itemCount: items3.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 21,
-            mainAxisSpacing: 20,
-            childAspectRatio: 0.7,
+  return Expanded(
+    child: GridView.builder(
+      itemCount: items3.length,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 0.75,
+      ),
+      itemBuilder: (context, index) {
+        final item = items3[index];
+        final image = item['image'] as String;
+        final title = item['title'] as String;
+        final name = item['Name'] as String;
+        final price = item['price'] as String;
+        final tag = item['tag'] as String;
+
+        return Container(
+          decoration: BoxDecoration(
+            color: const Color(0xff161F28),
+            borderRadius: BorderRadius.circular(16),
           ),
-          itemBuilder: (context, index) {
-            final item = items3[index];
-            final image = item['image'] as String;
-            final title = item['title'] as String;
-            final name = item['Name'] as String;
-            final price = item['price'] as String;
-            final tag = item['tag'] as String;
-            final colors =
-                (item['colors'] as List?)?.cast<Color>() ?? <Color>[];
-            return Container(
-              decoration: BoxDecoration(
-                color: Color(0xff161F28),
-                borderRadius: BorderRadius.circular(12),
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// Image (responsive)
+              Expanded(
+                flex: 3,
+                child: Center(
+                  child: Image.asset(
+                    image,
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Image.asset(
-                        image,
-                        height: 100,
-                        fit: BoxFit.contain,
-                      ),
+
+              const SizedBox(height: 8),
+
+              /// Title
+              Text(
+                title,
+                style: GoogleFonts.poppins(
+                  color: const Color(0xFF5B9EE1),
+                  fontSize: width(context) * 0.035,
+                ),
+              ),
+
+              /// Name
+              Text(
+                name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: width(context) * 0.042,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+
+              /// Tag
+              Text(
+                tag,
+                style: GoogleFonts.poppins(
+                  color: Colors.grey,
+                  fontSize: width(context) * 0.032,
+                ),
+              ),
+
+              const SizedBox(height: 6),
+
+              /// Price + Colors
+              Row(
+                children: [
+                  Text(
+                    price,
+                    style: GoogleFonts.poppins(
+                      color: Colors.greenAccent,
+                      fontSize: width(context) * 0.036,
+                      fontWeight: FontWeight.w600,
                     ),
-                    Spacer(),
-                    Text(
-                      title,
-                      style: GoogleFonts.poppins(
-                        color: Color(0xFF5B9EE1),
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      name,
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 19,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      tag,
-                      style: GoogleFonts.poppins(
-                        color: Colors.grey,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(children: [
-                      Text(
-                        price,
-                        style: GoogleFonts.poppins(
-                          color: Colors.greenAccent,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 50,
-                      ),
-                     Icon(Icons.fiber_manual_record,
-                     color: AppColors.blue,
-                       size: 20,
-                     )
-                    ])
-                  ]),
-            );
-          },
-        ),
-      );
-    },
+                  ),
+                  const Spacer(),
+                  Icon(
+                    Icons.fiber_manual_record,
+                    color: AppColors.blue,
+                    size: width(context) * 0.045,
+                  ),
+                  const SizedBox(width: 4),
+                  Icon(
+                    Icons.fiber_manual_record,
+                    color: Colors.green,
+                    size: width(context) * 0.045,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    ),
   );
 }
+

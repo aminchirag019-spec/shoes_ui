@@ -5,6 +5,8 @@ import 'package:task_1/screens/favoriteScreen/widget_favourite.dart';
 import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/icons.dart';
 
+import '../widgets/app_bar.dart';
+
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
 
@@ -29,18 +31,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                   IconButton(onPressed:() {
                     context.go('/HomeScreen');
                   },
-                      icon:Container(
-                        height: 45,
-                        width: 45,
-                        decoration: BoxDecoration(
-                          color: AppColors.bg,
-                          borderRadius: BorderRadius.circular(20)
-                        ),
-                        child:Padding(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: Icon(Icons.arrow_back_ios,color: AppColors.white,),
-                        ),
-                      ),),
+                      icon:iconBox(GIcons.back,)
+                      ),
                   Text(
                     "Favourite",
                     style: GoogleFonts.poppins(
@@ -49,12 +41,21 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  iconBox(Icons.shopping_bag_outlined),
+                 IconButton(onPressed:() => context,
+                     icon: Container(
+                       height: 44,
+                       width: 44,
+                       decoration: BoxDecoration(
+                         color: AppColors.bg,
+                         borderRadius: BorderRadius.circular(30)
+                       ),
+                       child:ImageIcon(AssetImage("assets/images/Frame.png",),color: AppColors.white,),
+                     ))
                 ],
               ),
               const SizedBox(height: 12),
-              // GridView inside Column: make it shrink and non-scrollable
-              shoesOptions()
+              Expanded(child:shoesOptions())
+
             ],
           ),
         ),
