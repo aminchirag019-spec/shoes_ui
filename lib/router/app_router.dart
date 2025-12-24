@@ -17,10 +17,10 @@ import 'package:task_1/screens/accountSettingScreen/account_setting_screen.dart'
 import 'package:task_1/screens/profileScreen/profile_screen.dart';
 import 'package:task_1/screens/searchScreen/search_screen.dart';
 import 'package:task_1/screens/splashScreen/splash_screen.dart';
-import 'package:task_1/screens/widgets/widget_bottom.dart';
+import 'package:task_1/screens/bottomBarScreen/widget_bottom.dart';
 import '../connectivity/connectivity_checker.dart';
 import '../main.dart';
-import '../screens/widgets/zoom_drawer.dart';
+import '../screens/drawerScreen/zoom_drawer.dart';
 import '../session/session_class.dart';
 import '../session/session_key.dart';
 

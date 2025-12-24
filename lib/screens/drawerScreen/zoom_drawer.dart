@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:go_router/go_router.dart';
-import 'package:task_1/screens/homeScreen/home_screen.dart';
-import 'package:task_1/screens/widgets/widget_bottom.dart';
+import 'package:task_1/screens/bottomBarScreen/widget_bottom.dart';
+import '../../router/router_class.dart';
 import '../../utilities/colors.dart';
-import '../homeScreen/widget_home.dart' show drawer;
-import 'bottom_Navbar.dart';
+import '../../utilities/media_query.dart';
+import '../homeScreen/widget_home.dart' show drawer, menuItem;
 class MainWrapper extends StatefulWidget {
   final Widget child;
 
@@ -54,7 +54,6 @@ class ShellScaffold extends StatelessWidget {
 
           body: child,
 
-          // ✅ YOUR OLD NAV BAR IS BACK
           bottomNavigationBar: OldCustomBottomBar(
             selectedIndex: _selectedIndex(context),
             isOpen : isOpen,
@@ -63,7 +62,6 @@ class ShellScaffold extends StatelessWidget {
                 drawer.close();
                 return;
               }
-
               const routes = [
                 '/HomeScreen',
                 '/FavouriteScreen',
@@ -72,7 +70,7 @@ class ShellScaffold extends StatelessWidget {
               ];
               context.go(routes[index]);
             },
-            onProfileTap: () => drawer.toggle(),
+            onProfileTap:() => drawer.toggle(),
           ),
         );
       },
@@ -87,4 +85,91 @@ class ShellScaffold extends StatelessWidget {
     if (path.startsWith('/ProfileScreen')) return 3;
     return 0;
   }
+}
+
+Widget drawer() {
+  return StatefulBuilder(
+    builder: (context, setState) {
+      return Scaffold(
+        backgroundColor: AppColors.chipBg,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(
+              horizontal: width(context) * 0.06,
+              vertical: height(context) * 0.04,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: height(context) * 0.05),
+
+                /// Avatar
+                CircleAvatar(
+                  radius: width(context) * 0.09,
+                  backgroundImage:
+                  const AssetImage("assets/images/alissonbecker.png"),
+                ),
+
+                SizedBox(height: height(context) * 0.015),
+
+                /// Greeting
+                Text(
+                  "Hey, 👋",
+                  style: TextStyle(
+                    color: const Color(0xFF707B81),
+                    fontWeight: FontWeight.bold,
+                    fontSize: width(context) * 0.045,
+                  ),
+                ),
+
+                SizedBox(height: height(context) * 0.01),
+
+                /// Name
+                Text(
+                  "Alisson Becker",
+                  style: TextStyle(
+                    fontSize: width(context) * 0.05,
+                    color: AppColors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                SizedBox(height: height(context) * 0.04),
+
+                /// Menu Items
+                menuItem(context, "assets/images/user.png", "Profile",
+                    RouterName.profileScreen.path),
+                menuItem(context, "assets/images/home .png", "Home Page",
+                    RouterName.homeScreen.path),
+                menuItem(context, "assets/images/Frame.png", "My Cart",
+                    RouterName.mycartScreen.path),
+                menuItem(context, "assets/images/Heart.png", "Favourite",
+                    RouterName.favouriteScreen.path),
+                menuItem(context, "assets/images/FastDelivery.png", "Orders",
+                    RouterName.checkoutScreen.path),
+                menuItem(context, "assets/images/Notifications.png",
+                    "Notifications", RouterName.notificationScreen.path),
+                menuItem(context, "assets/images/Filter.png", "Settings",
+                    RouterName.accountSettingScreen.path),
+
+                SizedBox(height: height(context) * 0.04),
+
+                Divider(color: AppColors.white.withOpacity(0.3)),
+
+                SizedBox(height: height(context) * 0.02),
+
+                /// Sign out
+                menuItem(
+                  context,
+                  "assets/images/Signout.png",
+                  "Sign Out",
+                  '/LoginScreen',
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }

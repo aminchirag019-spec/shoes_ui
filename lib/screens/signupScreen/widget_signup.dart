@@ -41,10 +41,10 @@ Widget nameField(){
     validator: _validateName,
     style: const TextStyle(color: Colors.white),
     decoration: InputDecoration(
-      hintText: "Alisson Becker",
-      hintStyle: const TextStyle(color: Colors.white70),
+      hintText: "Enter your name",
+      hintStyle:  TextStyle(color: Colors.white12),
       filled: true,
-      fillColor: const Color(0xff161F28),
+      fillColor: Color(0xff161F28),
       contentPadding: const EdgeInsets.symmetric(
           horizontal: 20, vertical: 16),
       border: OutlineInputBorder(
@@ -59,14 +59,14 @@ Widget nameField(){
 /// Email field
 Widget emailField(){
   return  TextFormField(
-    style: const TextStyle(color: Colors.white),
+    style:  TextStyle(color: Colors.white),
     validator: validateEmail,
     decoration: InputDecoration(
-      hintText: "alissonbecker@gmail.com",
-      hintStyle: const TextStyle(color: Colors.white70),
+      hintText: "Enter your email",
+      hintStyle:  TextStyle(color: Colors.white10),
       filled: true,
-      fillColor: const Color(0xff161F28),
-      contentPadding: const EdgeInsets.symmetric(
+      fillColor:  Color(0xff161F28),
+      contentPadding:  EdgeInsets.symmetric(
           horizontal: 20, vertical: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30),
@@ -83,7 +83,7 @@ Widget passwordField(){
     validator: validatePassword,
     decoration: InputDecoration(
       hintText: "Password",
-      hintStyle: const TextStyle(color: Colors.white70),
+      hintStyle:  TextStyle(color: Colors.white10),
       filled: true,
       fillColor: const Color(0xff161F28),
       contentPadding: const EdgeInsets.symmetric(

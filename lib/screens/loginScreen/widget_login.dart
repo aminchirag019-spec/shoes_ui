@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_1/utilities/colors.dart';
 
 import '../../router/router_class.dart';
 import '../../session/session_class.dart';
@@ -43,7 +44,7 @@ Widget emailField(BuildContext context){
     style: const TextStyle(color: Colors.white),
     decoration: InputDecoration(
       hintText: "Enter your email",
-      hintStyle: const TextStyle(color: Colors.white70),
+      hintStyle:  TextStyle(color:Colors.white10),
       filled: true,
       fillColor: const Color(0xFF161F28),
       contentPadding: const EdgeInsets.symmetric(
@@ -70,7 +71,7 @@ bool obscurePassword = true;
        style: const TextStyle(color: Colors.white),
        decoration: InputDecoration(
          hintText: "Password",
-         hintStyle: const TextStyle(color: Colors.white70),
+         hintStyle: const TextStyle(color: Colors.white12),
          filled: true,
          fillColor: const Color(0xFF161F28),
          contentPadding: const EdgeInsets.symmetric(

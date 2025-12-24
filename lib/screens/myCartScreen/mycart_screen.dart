@@ -15,7 +15,7 @@ class MycartScreen extends StatefulWidget {
   @override
   State<MycartScreen> createState() => _MycartScreenState();
 }
-
+int count =1;
 class _MycartScreenState extends State<MycartScreen> {
   @override
   Widget build(BuildContext context) {

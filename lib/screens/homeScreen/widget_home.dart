@@ -8,92 +8,6 @@ import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/icons.dart';
 
 import '../../utilities/media_query.dart';
-Widget drawer() {
-  return StatefulBuilder(
-    builder: (context, setState) {
-      return Scaffold(
-        backgroundColor: AppColors.chipBg,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(
-              horizontal: width(context) * 0.06,
-              vertical: height(context) * 0.04,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: height(context) * 0.05),
-
-                /// Avatar
-                CircleAvatar(
-                  radius: width(context) * 0.09,
-                  backgroundImage:
-                  const AssetImage("assets/images/alissonbecker.png"),
-                ),
-
-                SizedBox(height: height(context) * 0.015),
-
-                /// Greeting
-                Text(
-                  "Hey, 👋",
-                  style: TextStyle(
-                    color: const Color(0xFF707B81),
-                    fontWeight: FontWeight.bold,
-                    fontSize: width(context) * 0.045,
-                  ),
-                ),
-
-                SizedBox(height: height(context) * 0.01),
-
-                /// Name
-                Text(
-                  "Alisson Becker",
-                  style: TextStyle(
-                    fontSize: width(context) * 0.05,
-                    color: AppColors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                SizedBox(height: height(context) * 0.04),
-
-                /// Menu Items
-                menuItem(context, "assets/images/user.png", "Profile",
-                    RouterName.profileScreen.path),
-                menuItem(context, "assets/images/home .png", "Home Page",
-                    RouterName.homeScreen.path),
-                menuItem(context, "assets/images/Frame.png", "My Cart",
-                    RouterName.mycartScreen.path),
-                menuItem(context, "assets/images/Heart.png", "Favourite",
-                    RouterName.favouriteScreen.path),
-                menuItem(context, "assets/images/FastDelivery.png", "Orders",
-                    RouterName.checkoutScreen.path),
-                menuItem(context, "assets/images/Notifications.png",
-                    "Notifications", RouterName.notificationScreen.path),
-                menuItem(context, "assets/images/Filter.png", "Settings",
-                    RouterName.accountSettingScreen.path),
-
-                SizedBox(height: height(context) * 0.04),
-
-                Divider(color: AppColors.white.withOpacity(0.3)),
-
-                SizedBox(height: height(context) * 0.02),
-
-                /// Sign out
-                menuItem(
-                  context,
-                  "assets/images/Signout.png",
-                  "Sign Out",
-                  '/LoginScreen',
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    },
-  );
-}
 
 Widget menuItem(
     BuildContext context,
@@ -237,7 +151,7 @@ Widget searchBar({bool isOpen = true}) {
             decoration: InputDecoration(
               prefixIcon: ImageIcon(AssetImage("assets/images/search.png")),
               hintText: "Search for shoes",
-              hintStyle:  TextStyle(color: isOpen ? Colors.black : AppColors.white,),
+              hintStyle:  TextStyle(color: isOpen ? Colors.black : Colors.white10,),
               filled: true,
               fillColor: isOpen ? Colors.white : AppColors.cardBg,
               contentPadding:
@@ -526,9 +440,15 @@ class FilterSheet extends StatefulWidget {
 }
 
 class _FilterSheetState extends State<FilterSheet> {
-  String selectedGender = "Men";
-  String selectedSize = "US 5.5";
-  RangeValues _currentRangeValues = const RangeValues(16, 350);
+  static const String _defaultGender ="Men";
+  static const String _defaultSize="US 5.5";
+  static const RangeValues _defaultRange=RangeValues(16,159);
+
+
+
+  String selectedGender = _defaultGender;
+  String selectedSize = _defaultSize;
+  RangeValues _currentRangeValues = _defaultRange;
 
   @override
   Widget build(BuildContext context) {
@@ -566,7 +486,13 @@ class _FilterSheetState extends State<FilterSheet> {
                       fontSize: 24,
                       fontWeight: FontWeight.bold)),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                   selectedGender=_defaultGender;
+                   selectedSize=_defaultSize;
+                   _currentRangeValues=_defaultRange;
+                  });
+                },
                 child:  Text("RESET",
                     style: TextStyle(color: Colors.grey, fontSize: 14)),
               )
@@ -689,7 +615,7 @@ class _FilterSheetState extends State<FilterSheet> {
     return GestureDetector(
       onTap: () => setState(() => selectedSize = label),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding:  EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.blue :  Color(0xFF15202B),
           borderRadius: BorderRadius.circular(30),

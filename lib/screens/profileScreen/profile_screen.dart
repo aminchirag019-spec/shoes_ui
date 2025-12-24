@@ -99,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: const TextStyle(color: AppColors.white),
                       decoration: InputDecoration(
                         hintText: "Alisson Becker",
-                        hintStyle: const TextStyle(color: Colors.white70),
+                        hintStyle: const TextStyle(color: Colors.white10),
                         filled: true,
                         fillColor:  Color(0xFF161F28),
                         contentPadding:  EdgeInsets.symmetric(
@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style:  TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         hintText: "alissonbecker@gmail.com",
-                        hintStyle:  TextStyle(color: Colors.white70),
+                        hintStyle:  TextStyle(color: Colors.white10),
                         filled: true,
                         fillColor:  Color(0xFF161F28),
                         contentPadding:  EdgeInsets.symmetric(
@@ -151,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style:  TextStyle(color:AppColors.white),
                       decoration: InputDecoration(
                         hintText: "Password",
-                        hintStyle:  TextStyle(color: Colors.white70),
+                        hintStyle:  TextStyle(color: Colors.white10),
                         filled: true,
                         fillColor:  Color(0xFF161F28),
                         contentPadding:  EdgeInsets.symmetric(

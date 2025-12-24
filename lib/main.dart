@@ -6,7 +6,6 @@ import 'package:task_1/session/session_class.dart';
 
 import 'connectivity/connectivity_checker.dart';
 
-final GlobalKey<ZoomDrawerState> zoomDrawerController = GlobalKey<ZoomDrawerState>();
 final SharedPrefsHelper sharedprefshelper = SharedPrefsHelper();
 
 void main() async{

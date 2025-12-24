@@ -12,7 +12,7 @@ final items3 = [
     "tag": "Men's Shoes",
     "Name": "Nike Jordan",
     "price": "\$583.7",
-    "color": [Color(0xff4EE8CC), Color(0xff92CAFF)]
+    "colors": [Colors.red, Colors.blue]
   },
   {
     "image": "assets/images/shoes_4.png",
@@ -20,7 +20,7 @@ final items3 = [
     "tag": "Men's Shoes",
     "Name": "Nike Air Max",
     "price": "\$373.8",
-    "color": [Color(0xff4EE8CC), Color(0xff92CAFF)]
+    "colors": [Colors.white10, Colors.green]
   },
   {
     "image": "assets/images/NikeClubMax.png",
@@ -28,7 +28,7 @@ final items3 = [
     "tag": "Men's Shoes",
     "Name": "Nike Club Max",
     "price": "\$473.7",
-    "color": [Color(0xff4EE8CC), Color(0xff92CAFF)]
+    "colors": [Colors.orange, Colors.pink]
   },
   {
     "image": "assets/images/NikeAirMax_Orangea_white.png",
@@ -36,7 +36,7 @@ final items3 = [
     "tag": "Men's Shoes",
     "Name": "Nike Jordan",
     "price": "\$573.6",
-    "colors": [Color(0xff4EE8CC), Color(0xff92CAFF)]
+    "colors": [Colors.teal, Colors.red]
   },
   {
     "image": "assets/images/NikeAirMax_Orangea_white.png",
@@ -44,7 +44,7 @@ final items3 = [
     "tag": "Men's Shoes",
     "Name": "Nike Jordan",
     "price": "\$573.6",
-    "colors": [Color(0xff4EE8CC), Color(0xff92CAFF)]
+    "colors": [Colors.orange, Colors.pink]
   },
   {
     "image": "assets/images/NikeAirMax_Orangea_white.png",
@@ -52,7 +52,7 @@ final items3 = [
     "tag": "Men's Shoes",
     "Name": "Nike Jordan",
     "price": "\$573.6",
-    "colors": [Color(0xff4EE8CC), Color(0xff92CAFF)]
+    "colors": [Colors.orange, Colors.pink]
   }
 ];
 Widget shoesOptions2() {
@@ -73,7 +73,7 @@ Widget shoesOptions2() {
         final name = item['Name'] as String;
         final price = item['price'] as String;
         final tag = item['tag'] as String;
-
+        final colors = item['colors'] as List<Color>;
         return Container(
           decoration: BoxDecoration(
             color: const Color(0xff161F28),
@@ -140,16 +140,17 @@ Widget shoesOptions2() {
                     ),
                   ),
                   const Spacer(),
-                  Icon(
-                    Icons.fiber_manual_record,
-                    color: AppColors.blue,
-                    size: width(context) * 0.045,
-                  ),
-                  const SizedBox(width: 4),
-                  Icon(
-                    Icons.fiber_manual_record,
-                    color: Colors.green,
-                    size: width(context) * 0.045,
+                  Row(
+                    children: List.generate(
+                      colors.length,
+                          (i) => Container(
+                        margin: const EdgeInsets.only(left: 13),
+                        child: CircleAvatar(
+                          radius: 7,
+                          backgroundColor: colors[i],
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

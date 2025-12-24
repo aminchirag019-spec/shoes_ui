@@ -32,7 +32,6 @@ class SharedPrefsHelper {
 
     final email = _prefs!.getString(PrefKeys.loginId);
     final loggedIn = _prefs!.getBool(PrefKeys.isLoggedIn) ?? false;
-
     return loggedIn && email != null && email.isNotEmpty;
   }
 
@@ -41,3 +40,4 @@ class SharedPrefsHelper {
     await _prefs!.clear();
   }
 }
+

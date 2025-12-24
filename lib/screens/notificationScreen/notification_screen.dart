@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_1/router/router_class.dart';
 import 'package:task_1/screens/detailsScreen/widget_details.dart';
 import 'package:task_1/screens/favoriteScreen/widget_favourite.dart' hide iconBox;
 import 'package:task_1/utilities/colors.dart';
@@ -69,7 +70,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(onPressed:() {
-                      context.go('/HomeScreen');
+                      context.go(RouterName.homeScreen.path);
                     },
                         icon:iconBox(GIcons.back,)
                     ),
@@ -90,7 +91,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
                   child: Row(
                     children: [
                       Text("Today",
@@ -191,6 +192,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
                 SizedBox(
                   height:height(context)*0.3,
+                  width: width(context)*0.95,
                   child: ListView.builder(
                     itemCount: Items2.length,
                     itemBuilder: (context, index) {
@@ -206,8 +208,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 borderRadius: BorderRadius.circular(14)
                             ),
                             child: Image.asset(items["image"]!,
-                              height: 70,
-                              width: 100,
+                              height: height(context)*0.07,
+                              width: width(context)*0.25,
                             ),
                           ),
                           SizedBox(width: 10,),
@@ -246,7 +248,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             padding: const EdgeInsets.fromLTRB(0,0,0,50),
                             child: Text(items["time"]!,style: TextStyle(
                                 color: AppColors.grey,
-                              fontSize: 13
+                              fontSize: 12
                             ),),
                           ), // SizedBox(height: 45,),
                           Padding(

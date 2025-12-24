@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_1/router/router_class.dart';
 import 'package:task_1/screens/favoriteScreen/widget_favourite.dart';
 import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/icons.dart';
@@ -29,7 +30,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(onPressed:() {
-                    context.go('/HomeScreen');
+                    context.go(RouterName.homeScreen.path);
                   },
                       icon:iconBox(GIcons.back,)
                       ),

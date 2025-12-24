@@ -38,7 +38,7 @@ class NavIcon extends StatelessWidget {
 }
 
 class Fab extends StatelessWidget {
-  final bool isOpen; // Added to blend the outer ring
+  final bool isOpen;
 
   const Fab({super.key, this.isOpen = false});
 

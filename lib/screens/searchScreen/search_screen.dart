@@ -42,7 +42,7 @@ class _SearchScreenState extends State<SearchScreen> {
       backgroundColor: AppColors.chipBg,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding:  EdgeInsets.symmetric(horizontal: 12,vertical: 12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,8 +57,16 @@ class _SearchScreenState extends State<SearchScreen> {
                     Text("Search",
                       style: TextStyle(color: Colors.white,
                           fontSize: 18)),
-                  Text("Cancel",
-                      style: TextStyle(color: AppColors.blue)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        context.go(RouterName.homeScreen.path);
+                      },
+                      child: Text("Cancel",
+                          style: TextStyle(color: AppColors.blue)),
+                    ),
+                  ),
                 ],
               ),
 
@@ -76,7 +84,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   prefixIcon: IconButton(onPressed:() => context.pop(),
                       icon: ImageIcon(AssetImage("assets/images/search.png"))),
                   hintText: "Search Your Shoes",
-                  hintStyle: TextStyle(color: Colors.white54),
+                  hintStyle: TextStyle(color: Colors.white10),
                   filled: true,
                   fillColor: AppColors.bg,
                   border: OutlineInputBorder(
@@ -85,26 +93,28 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               ),
-
-              SizedBox(height: 20),
-                Text("Recent Searches",
-                    style: TextStyle(color: Colors.white, fontSize: 16)),
-
-              SizedBox(height: 10),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: search.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: Icon(Icons.history, color: Colors.white54),
-                      title: Text(
-                        search[index],
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    );
-                  },
+              if (search.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                const Text(
+                  "Recent Searches",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
-              )
+                const SizedBox(height: 10),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: search.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: const Icon(Icons.history, color: Colors.white54),
+                        title: Text(
+                          search[index],
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ],
           ),
         ),

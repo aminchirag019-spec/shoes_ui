@@ -1,4 +1,4 @@
-// lib/screens/widgets/bottom_Navbar.dart
+
 import 'package:flutter/material.dart';
 
 class BottomNav extends StatelessWidget {
@@ -19,11 +19,10 @@ class BottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: selectedIndex,
-      type: BottomNavigationBarType.fixed, // Keeps items from shifting
+      type: BottomNavigationBarType.fixed,
       onTap: (index) {
-        // IMPORTANT: Change 3 to the index of your profile icon
         if (index == 3) {
-          onProfileTap(); // This triggers drawer.toggle() in MainScreenContent
+          onProfileTap();
         } else {
           onTabSelected(index);
         }

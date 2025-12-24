@@ -63,7 +63,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 TextFormField(
                   style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
-                    hintText: "alissonbecker@gmail.com",
+                    hintText: "Enter your email",
                     hintStyle: const TextStyle(color: Colors.white70),
                     filled: true,
                     fillColor: AppColors.bg,

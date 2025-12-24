@@ -51,9 +51,9 @@ class CheckoutScreen extends StatelessWidget {
                     children: [
                       summaryRow("Subtotal", "\$1250.00"),
                       summaryRow("Shopping", "\$40.90"),
-                      const Divider(color: Colors.white30, height: 30),
+                       Divider(color: Colors.white30, height: 30),
                       summaryRow("Total Cost", "\$1690.99", isBold: true),
-                      const SizedBox(height: 30),
+                       SizedBox(height: 30),
                       SizedBox(
                         width: width(context) * 0.9,
                         height: 60,
@@ -65,13 +65,12 @@ class CheckoutScreen extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            // OPENS THE DIALOG FROM payment_checkout_screen.dart
                             showDialog(
                               context: context,
-                              builder: (context) => const PaymentCheckoutScreen(),
+                              builder: (context) =>  PaymentCheckoutScreen(),
                             );
                           },
-                          child: const Text(
+                          child:  Text(
                             "Payment",
                             style: TextStyle(color: AppColors.white, fontSize: 18),
                           ),

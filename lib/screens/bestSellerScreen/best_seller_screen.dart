@@ -14,7 +14,6 @@ class BestSellerScreen extends StatefulWidget {
   @override
   State<BestSellerScreen> createState() => _BestSellerScreenState();
 }
-
 class _BestSellerScreenState extends State<BestSellerScreen> {
   @override
   Widget build(BuildContext context) {
@@ -25,25 +24,29 @@ class _BestSellerScreenState extends State<BestSellerScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Row(
-                children: [
-                  IconButton(onPressed: () {
-                    context.push(RouterName.homeScreen.path);
-                  }, icon:  iconBox(Icons.arrow_back_ios),),
-                  SizedBox(width:width(context)*0.21,),
-                  Text("Best Sellers",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white
-                  ),
-                  ),
-                  SizedBox(width:width(context)*0.15,),
-                  ImageIcon(AssetImage("assets/images/Filter.png"),color: Colors.white,),
-                  SizedBox(width:width(context)*0.05,),
-                   ImageIcon(AssetImage("assets/images/search.png"),color: Colors.white,),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(onPressed: () {
+                      context.push(RouterName.homeScreen.path);
+                    }, icon:iconBox(Icons.arrow_back_ios),),
+                    SizedBox(width:width(context)*0.18,),
+                    Text("Best Sellers",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white
+                    ),
+                    ),
+                    SizedBox(width:width(context)*0.14,),
+                    ImageIcon(AssetImage("assets/images/Filter.png"),color: Colors.white,),
+                    SizedBox(width:width(context)*0.04,),
+                     ImageIcon(AssetImage("assets/images/search.png"),color: Colors.white,),
+                  ],
+                ),
               ),
-              SizedBox(height: 15,),
+               SizedBox(height: 15,),
               Expanded(child:shoesOptions2())
             ],
           ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../utilities/colors.dart';
+import 'mycart_screen.dart';
 
 
 final cart = [
@@ -37,7 +38,7 @@ Widget summaryRow(String title, String value, {bool isBold = false}) {
             title,
             style: TextStyle(
               color: Colors.white70,
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
             ),
           ),
@@ -45,7 +46,7 @@ Widget summaryRow(String title, String value, {bool isBold = false}) {
             value,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
             ),
           ),
@@ -54,6 +55,9 @@ Widget summaryRow(String title, String value, {bool isBold = false}) {
     ),
   );
 }
+
+final List<int> itemCounts =
+List.generate(cart.length, (_) => 1);
 Widget optionShoes() {
   return StatefulBuilder(
     builder: (context, setState) {
@@ -112,18 +116,42 @@ Widget optionShoes() {
                          SizedBox(height: 8),
 
                         Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            _buildCounterBtn(Icons.remove),
+                            _counterBtn(
+                              icon: Icons.remove,
+                              onTap: () {
+                                if (itemCounts[index] > 1) {
+                                  setState(() {
+                                    itemCounts[index]--;
+                                  });
+                                }
+                              },
+                            ),
+
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 12),
                               child: Text(
-                                "1",
-                                style: TextStyle(fontSize: 14, color: Colors.white),
+                                itemCounts[index].toString(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.white,
+                                ),
                               ),
                             ),
-                            _buildCounterBtn(Icons.add),
+
+                            _counterBtn(
+                              icon: Icons.add,
+                              onTap: () {
+                                setState(() {
+                                  itemCounts[index]++;
+                                });
+                              },
+                            ),
                           ],
                         )
+
                       ],
                     ),
                   ),
@@ -131,17 +159,25 @@ Widget optionShoes() {
                   Padding(
                     padding: const EdgeInsets.only(right: 9, bottom: 8),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween, // Pushes size to top/center and icon to bottom
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
                           items["size"]!,
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
-                        ImageIcon(
-                          AssetImage("assets/images/Icon.png"),
-                          size: 22,
-                          color: Colors.white70,
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              cart.removeAt(index);
+                              itemCounts.removeAt(index); // keep counters in sync
+                            });
+                          },
+                          child: const ImageIcon(
+                            AssetImage("assets/images/Icon.png"),
+                            size: 22,
+                            color: Colors.white70,
+                          ),
                         ),
                       ],
                     ),
@@ -155,16 +191,23 @@ Widget optionShoes() {
     },
   );
 }
-Widget _buildCounterBtn(IconData icon) {
-  return Container(
-    height: 24,
-    width: 24,
-    alignment: Alignment.center, // PERFECTLY CENTERS THE ICON
-    decoration: BoxDecoration(
-      color: AppColors.bg,
-      shape: BoxShape.circle,
+
+Widget _counterBtn({
+  required IconData icon,
+  required VoidCallback onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      height: 24,
+      width: 24,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: AppColors.bg,
+        shape: BoxShape.circle,
+      ),
+      child: Icon(icon, size: 16, color: Colors.white),
     ),
-    child: Icon(icon, size: 16, color: Colors.white),
   );
 }
 
