@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_1/screens/homeScreen/widget_home.dart';
 
 import '../../router/router_class.dart' show RouterName;
 import '../../utilities/colors.dart';
 import '../../utilities/icons.dart';
+import '../myCartScreen/widget_myscreen.dart';
 import '../widgets/app_bar.dart';
 
 final List<String> galleryOwners = [
@@ -201,43 +203,88 @@ Widget featureBox(IconData icon, String label) {
   );
 }
 
-Widget buildBottomBar() {
+Widget buildBottomBar(BuildContext context) {
   return BottomAppBar(
     color: const Color(0xFF07151A),
     child: Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 18.0,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Row(
         children: [
           Expanded(
             child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Price',
-                      style: GoogleFonts.poppins(color: Colors.white60)),
-                  const SizedBox(height: 6),
-                  Text('\$849.69',
-                      style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700)),
-                ]),
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Price',
+                  style: GoogleFonts.poppins(color: Colors.white60),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  currentItem["price"]!, // ✅ FIXED
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
           ),
+
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              addToCart(currentItem);
+
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  const SnackBar(
+                    content: Text("Added to cart"),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
+            },
             style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.accent,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28))),
-            child: Text('Add To Cart',
-                style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+              backgroundColor: AppColors.accent,
+              padding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(28),
+              ),
+            ),
+            child: Text(
+              'Add To Cart',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+                color: AppColors.white,
+              ),
+            ),
           ),
         ],
       ),
     ),
   );
+}
+
+final Map<String, String> currentItem = {
+  "image": "assets/images/NikeAirJordan_Orange.png",
+  "name": "Nike Air Jordan",
+  "price": "\$849.69",
+  "size": "40",
+};
+void addToCart(Map<String, String> item) {
+  final index = cart.indexWhere((e) => e["name"] == item["name"]);
+
+  if (index != -1) {
+    cart[index]["count"]++;
+  } else {
+    cart.add({
+      "image": item["image"],
+      "name": item["name"],
+      "price": item["price"],
+      "size": item["size"],
+      "count": 1,
+    });
+  }
 }

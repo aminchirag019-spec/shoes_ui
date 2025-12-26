@@ -1,31 +1,74 @@
+
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:network_aware_package/network_aware_package.dart';
 import 'package:task_1/router/app_router.dart';
-import 'package:task_1/session/session_class.dart';
 
 import 'connectivity/connectivity_checker.dart';
 import 'firebase_options.dart';
+import 'session/session_class.dart';
 
 final SharedPrefsHelper sharedprefshelper = SharedPrefsHelper();
-
-
-
+final FlutterLocalNotificationsPlugin localNotifications =
+FlutterLocalNotificationsPlugin();
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
+  await FirebaseMessaging.instance.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  String? token = await FirebaseMessaging.instance.getToken();
+  print("FCM TOKEN: $token");
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    final notification = message.notification;
+
+    if (notification != null) {
+      localNotifications.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'high_importance_channel',
+            'High Importance Notifications',
+            importance: Importance.max,
+            priority: Priority.high,
+          ),
+        ),
+      );
+    }
+  });
+  FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    print("Opened from notification");
+  });
+   AndroidInitializationSettings androidInit =
+  AndroidInitializationSettings('@mipmap/ic_launcher');
+
+   InitializationSettings initSettings =
+  InitializationSettings(android: androidInit);
+
+  await localNotifications.initialize(initSettings);
   NetworkService.instance.initialize();
   await sharedprefshelper.init();
   runApp(const MyApp());
 }
+
+
+Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Background message: ${message.data}");
+}
 TextEditingController email= TextEditingController();
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -42,7 +85,7 @@ class MyApp extends StatelessWidget {
                 useMaterial3: true,
                 ),
             );
-      },
+        },
     );
     }
 }

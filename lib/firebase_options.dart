@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'task-1-bac60.firebasestorage.app',
     iosBundleId: 'com.example.task1',
   );
+
 }

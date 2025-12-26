@@ -5,26 +5,7 @@ import '../../utilities/colors.dart';
 import 'mycart_screen.dart';
 
 
-final cart = [
-  {
-    "image": "assets/images/NikeClubMaxBlue.png",
-    "title": "Nike Club Max",
-    "price": "\$64.95",
-    "size": "L"
-  },
-  {
-    "image": "assets/images/NikeAirMax_Orangea_white.png",
-    "title": "Nike Club Max",
-    "price": "\$64.95",
-    "size": "XL"
-  },
-  {
-    "image": "assets/images/NikeClubMaxPurple.png",
-    "title": "Nike Club Max",
-    "price": "\$64.95",
-    "size": "L"
-  },
-];
+final List<Map<String, dynamic>> cart = [];
 
 Widget summaryRow(String title, String value, {bool isBold = false}) {
   return Padding(
@@ -56,8 +37,6 @@ Widget summaryRow(String title, String value, {bool isBold = false}) {
   );
 }
 
-final List<int> itemCounts =
-List.generate(cart.length, (_) => 1);
 Widget optionShoes() {
   return StatefulBuilder(
     builder: (context, setState) {
@@ -66,12 +45,13 @@ Widget optionShoes() {
           itemCount: cart.length,
           itemBuilder: (context, index) {
             final items = cart[index];
+
             return Container(
               height: 100,
-              padding: EdgeInsets.all(8),
-              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+              padding: const EdgeInsets.all(8),
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               decoration: BoxDecoration(
-                color: Color(0xFF1A2530),
+                color: const Color(0xFF1A2530),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -86,12 +66,12 @@ Widget optionShoes() {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: Image.asset(
-                        items["image"]!,
+                        items["image"],
                         fit: BoxFit.contain,
                       ),
                     ),
                   ),
-                   SizedBox(width: 15),
+                  const SizedBox(width: 15),
 
                   Expanded(
                     child: Column(
@@ -99,40 +79,39 @@ Widget optionShoes() {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          items["title"]!,
+                          items["name"],
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 16, // Adjusted slightly for fit
+                            fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                         SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
-                          items["price"]!,
-                          style: TextStyle(color: Colors.white70),
+                          items["price"],
+                          style: const TextStyle(color: Colors.white70),
                         ),
-                         SizedBox(height: 8),
+                        const SizedBox(height: 8),
 
                         Row(
-                          mainAxisSize: MainAxisSize.min,
                           children: [
                             _counterBtn(
                               icon: Icons.remove,
                               onTap: () {
-                                if (itemCounts[index] > 1) {
+                                if (items["count"] > 1) {
                                   setState(() {
-                                    itemCounts[index]--;
+                                    items["count"]--;
                                   });
                                 }
                               },
                             ),
-
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 12),
                               child: Text(
-                                itemCounts[index].toString(),
+                                items["count"].toString(),
                                 style: const TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
@@ -140,18 +119,16 @@ Widget optionShoes() {
                                 ),
                               ),
                             ),
-
                             _counterBtn(
                               icon: Icons.add,
                               onTap: () {
                                 setState(() {
-                                  itemCounts[index]++;
+                                  items["count"]++;
                                 });
                               },
                             ),
                           ],
-                        )
-
+                        ),
                       ],
                     ),
                   ),
@@ -163,14 +140,16 @@ Widget optionShoes() {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          items["size"]!,
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                          items["size"],
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
                         ),
                         GestureDetector(
                           onTap: () {
                             setState(() {
                               cart.removeAt(index);
-                              itemCounts.removeAt(index); // keep counters in sync
                             });
                           },
                           child: const ImageIcon(
@@ -181,7 +160,7 @@ Widget optionShoes() {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             );
@@ -211,45 +190,69 @@ Widget _counterBtn({
   );
 }
 
+Widget bottomRows() {
+  return StatefulBuilder(
+    builder: (context, setState) {
+      final subtotal = calculateSubtotal();
+      final shipping = subtotal == 0 ? 0 : 40.90;
+      final total = subtotal + shipping;
 
-Widget bottomRows(){
-  return StatefulBuilder(builder: (context, setState) {
-    return Container(
-      height: 370,
-      decoration: BoxDecoration(
+      return Container(
+        height: 370,
+        decoration: BoxDecoration(
           color: AppColors.bg,
-          borderRadius: BorderRadius.circular(16)
-      ),child:Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 30),
-      child: Column(
-        children: [
-          summaryRow("Subtotal", "\$1250.00"),
-          summaryRow("Shopping", "\$40.90"),
-          const Divider(color: Colors.white30, height: 30),
-          summaryRow("Total Cost", "\$1690.99", isBold: true),
-          SizedBox(height: 20,),
-          Container(
-            width: 410,
-            height: 60,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF4A9DFB),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+          child: Column(
+            children: [
+              summaryRow("Subtotal", "\$${subtotal.toStringAsFixed(2)}"),
+              summaryRow("Shopping", "\$${shipping.toStringAsFixed(2)}"),
+              const Divider(color: Colors.white30, height: 30),
+              summaryRow(
+                "Total Cost",
+                "\$${total.toStringAsFixed(2)}",
+                isBold: true,
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: 410,
+                height: 60,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF4A9DFB),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                  ),
+                  onPressed: subtotal == 0
+                      ? null
+                      : () {
+                    context.push('/CheckoutScreen');
+                  },
+                  child: const Text(
+                    "Checkout",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
                 ),
               ),
-              onPressed: () {
-                context.push('/CheckoutScreen');
-              },
-              child: const Text(
-                "Checkout",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-    );
-  },);
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+double calculateSubtotal() {
+  double total = 0;
+
+  for (var item in cart) {
+    final price =
+    double.parse(item["price"].replaceAll("\$", ""));
+    total += price * item["count"];
+  }
+
+  return total;
 }

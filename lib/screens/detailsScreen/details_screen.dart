@@ -33,7 +33,7 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
       },
       child: Scaffold(
         backgroundColor: Color(0xFF1A2530),
-        bottomNavigationBar: buildBottomBar(),
+        bottomNavigationBar: buildBottomBar(context),
         body: SafeArea(
           child: Stack(
             children: [

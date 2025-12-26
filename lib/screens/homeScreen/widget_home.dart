@@ -8,13 +8,15 @@ import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/icons.dart';
 
 import '../../utilities/media_query.dart';
+import '../myCartScreen/widget_myscreen.dart';
+import 'home_screen.dart';
 
 Widget menuItem(
-    BuildContext context,
-    String icon,
-    String title,
-    String route,
-    ) {
+  BuildContext context,
+  String icon,
+  String title,
+  String route,
+) {
   return InkWell(
     borderRadius: BorderRadius.circular(12),
     onTap: () {
@@ -52,32 +54,28 @@ Widget menuItem(
 }
 
 Widget topBar({required BuildContext context, bool isOpen = false}) {
-  final Color contentColor = isOpen ? AppColors.bg :AppColors.white;
+  final Color contentColor = isOpen ? AppColors.bg : AppColors.white;
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 15),
     child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          height: 45,
-          width: 45,
-          decoration: BoxDecoration(
-              color:isOpen ?  AppColors.white : AppColors.bg,
-              borderRadius: BorderRadius.circular(30)),
-          child: IconButton(
-              onPressed: () => showModalBottomSheet(
-                    context: context,
-                    useRootNavigator: true,
-                    isScrollControlled:
-                        true,
-                    backgroundColor:
-                        Colors.transparent,
-                    builder: (context) =>  FilterSheet(),
-                  ),
-              icon: ImageIcon(
-                 AssetImage("assets/images/apps-circle.png"),
-                color:isOpen ? AppColors.bg : AppColors.white
-              )),
-        ),
+            height: 45,
+            width: 45,
+            decoration: BoxDecoration(
+                color: isOpen ? AppColors.white : AppColors.bg,
+                borderRadius: BorderRadius.circular(30)),
+            child: IconButton(
+                onPressed: () => showModalBottomSheet(
+                      context: context,
+                      useRootNavigator: true,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => FilterSheet(),
+                    ),
+                icon: Icon(Icons.filter_list),
+                color: isOpen ? AppColors.bg : AppColors.white)),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -121,51 +119,51 @@ Widget topBar({required BuildContext context, bool isOpen = false}) {
   );
 }
 
-Widget searchBar({bool isOpen = true}) {
-  return StatefulBuilder(
-    builder: (context, setState) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Container(
-          height: 55,
-          decoration: BoxDecoration(
-            color: isOpen ? Colors.white : AppColors.cardBg,
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: isOpen
-                ? [
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(0.0), blurRadius: 10)
-                  ]
-                : [],
+Widget searchBar({
+  bool isOpen = false,
+  required ValueChanged<String> onSearch,
+}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 20),
+    child: Container(
+      height: 55,
+      decoration: BoxDecoration(
+        color: isOpen ? Colors.white : AppColors.cardBg,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: TextFormField(
+        onChanged: onSearch,
+        style: TextStyle(
+          color: isOpen ? Colors.black : Colors.white, // ✅ FIX
+          fontSize: 16,
+        ),
+        cursorColor: isOpen ? Colors.black : Colors.white,
+        decoration: InputDecoration(
+          prefixIcon: const ImageIcon(
+            AssetImage("assets/images/search.png"),
+            color: Colors.grey,
           ),
-          child: TextFormField(
-            readOnly: true,
-            onTap: () {
-              context.go(RouterName.searchScreen.path);
-            },
-            style: const TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              prefixIcon: ImageIcon(AssetImage("assets/images/search.png")),
-              hintText: "Search for shoes",
-              hintStyle:  TextStyle(color: isOpen ? Colors.black : Colors.white10,),
-              filled: true,
-              fillColor: isOpen ? Colors.white : AppColors.cardBg,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide.none,
-              ),
-            ),
+          hintText: "Search for shoes",
+          hintStyle: TextStyle(
+            color: isOpen ? Colors.grey : Colors.white70,
+          ),
+          filled: true,
+          fillColor: isOpen ? Colors.white : AppColors.cardBg,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: BorderSide.none,
           ),
         ),
-      );
-    },
+      ),
+    ),
   );
 }
 
-Widget brandRow({bool isOpen = false}) {
-  final ValueNotifier<int> selectedBrandIndex = ValueNotifier(0);
+final ValueNotifier<int> selectedBrandIndex = ValueNotifier<int>(-1);
+Widget brandRow({
+  bool isOpen = false,
+  required ValueChanged<String> onBrandSelected,
+}) {
   final brands = [
     {"name": "Nike", "icon": "assets/images/nike.png"},
     {"name": "Puma", "icon": "assets/images/Group 10.png"},
@@ -177,50 +175,47 @@ Widget brandRow({bool isOpen = false}) {
   return SizedBox(
     height: 56,
     child: ValueListenableBuilder<int>(
-      valueListenable: selectedBrandIndex,
+      valueListenable: selectedBrandIndex, // ✅ FIX
       builder: (context, selected, _) {
         return ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           scrollDirection: Axis.horizontal,
           itemCount: brands.length,
           itemBuilder: (context, index) {
-            final isSelected = index == selected;
+            final isSelected = selected == index;
 
-            Color containerColor;
-            if (isSelected) {
-              containerColor = AppColors.blue;
-            } else {
-              containerColor = isOpen ? AppColors.white : AppColors.chipBg;
-            }
+            final containerColor = isSelected
+                ? AppColors.blue
+                : (isOpen ? AppColors.white : AppColors.chipBg);
 
-            Color iconCircleColor;
-            if (isSelected) {
-              iconCircleColor = AppColors.white;
-            } else {
-              iconCircleColor =
-                  isOpen ? AppColors.blue.withOpacity(0.1) : AppColors.bg;
-            }
+            final iconCircleColor = isSelected
+                ? AppColors.white
+                : (isOpen ? AppColors.blue.withOpacity(0.1) : AppColors.bg);
 
             return GestureDetector(
-              onTap: () => selectedBrandIndex.value = index,
+              onTap: () {
+                selectedBrandIndex.value = index; // ✅ updates UI
+                onBrandSelected(brands[index]["name"]!); // ✅ filters
+              },
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                margin: const EdgeInsets.only(right: 5),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                duration:  Duration(milliseconds: 300),
+                margin:  EdgeInsets.only(right: 5),
+                padding:  EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
                   color: containerColor,
                   borderRadius: BorderRadius.circular(30),
                   border: isOpen && !isSelected
-                      ? Border.all(color: AppColors.blue.withOpacity(0.2))
+                      ? Border.all(
+                          color: AppColors.blue.withOpacity(0.2),
+                        )
                       : Border.all(color: Colors.transparent),
                 ),
                 child: Row(
                   children: [
                     AnimatedContainer(
-                      // Animate the icon circle color
                       duration: const Duration(milliseconds: 300),
                       height: 40,
-                      width: width(context) * 0.1,
+                      width: width(context) * 0.11,
                       decoration: BoxDecoration(
                         color: iconCircleColor,
                         shape: BoxShape.circle,
@@ -285,28 +280,19 @@ Widget sectionHeader(String title, BuildContext context,
   );
 }
 
-Widget popularShoes({bool isOpen = false}) {
-  final items = [
-    {
-      "name": "Nike Jordan",
-      "price": "\$493.00",
-      "image": "assets/images/NikeAirJordan_Orange.png"
-    },
-    {
-      "name": "Nike Air Max",
-      "price": "\$897.99",
-      "image": "assets/images/shoes_2.png"
-    },
-  ];
-
+Widget popularShoes({
+  bool isOpen = true,
+  required List<Map<String, String>> shoes,
+}) {
   return SizedBox(
     height: 220,
     child: ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       scrollDirection: Axis.horizontal,
-      itemCount: items.length,
+      itemCount: shoes.length,
       itemBuilder: (context, index) {
-        final item = items[index];
+        final item = shoes[index];
+
         return Container(
           width: width(context) * 0.42,
           margin: const EdgeInsets.only(right: 16),
@@ -314,46 +300,53 @@ Widget popularShoes({bool isOpen = false}) {
             color: isOpen ? Colors.white : AppColors.cardBg,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(item["image"]!, height: 110),
-                    SizedBox(height: 10),
-                    Text(
-                      "BEST SELLER",
-                      style: GoogleFonts.roboto(
+          child: GestureDetector(
+            onTap: () {
+              context.go(RouterName.detailsScreen.path);
+            },
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(item["image"]!, height: 110),
+                      const SizedBox(height: 10),
+                      Text(
+                        "BEST SELLER",
+                        style: GoogleFonts.roboto(
                           color: AppColors.blue,
                           fontSize: 11,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 6),
-                    Text(
-                      item["name"]!,
-                      style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        item["name"]!,
+                        style: GoogleFonts.roboto(
                           color: isOpen ? Colors.black : Colors.white,
                           fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 6),
-                    Text(
-                      item["price"]!,
-                      style: GoogleFonts.roboto(
-                          color: isOpen ? Colors.black54 : Colors.white70),
-                    ),
-                  ],
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        item["price"]!,
+                        style: GoogleFonts.roboto(
+                          color: isOpen ? Colors.black54 : Colors.white70,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Positioned(
+                Positioned(
                   bottom: 0,
                   right: 0,
                   child: Container(
-                    height: 44,
-                    width: 44,
-                    decoration: const BoxDecoration(
+                    height:height(context)*0.05,
+                    width:width(context)*0.1,
+                    decoration:  BoxDecoration(
                       color: Color(0xFF5B9EFF),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(14),
@@ -361,16 +354,26 @@ Widget popularShoes({bool isOpen = false}) {
                       ),
                     ),
                     child: IconButton(
-                        onPressed: () {
-                          context.go(RouterName.detailsScreen.path);
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 24,
-                        )),
-                  ))
-            ],
+                      onPressed: () {
+                        addToCart(item);
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                           SnackBar(
+                            content: Text("Added to cart"),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                      icon:  Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -378,11 +381,36 @@ Widget popularShoes({bool isOpen = false}) {
   );
 }
 
-Widget newArrivalCard({bool isOpen = false}) {
+void addToCart(Map<String, String> item) {
+  final index = cart.indexWhere((e) => e["name"] == item["name"]);
+
+  if (index != -1) {
+    cart[index]["count"]++;
+  } else {
+    cart.add({
+      "image": item["image"],
+      "name": item["name"],
+      "price": item["price"],
+      "size": "L",
+      "count": 1,
+    });
+  }
+}
+
+Widget newArrivalCard({
+  bool isOpen = false,
+  required List<Map<String, String>> shoes,
+}) {
+  if (shoes.isEmpty) {
+    return const SizedBox.shrink();
+  }
+
+  final item = shoes.first;
+
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Container(
-      height: 170,
+      height:160,
       decoration: BoxDecoration(
         color: isOpen ? Colors.white : AppColors.cardBg,
         borderRadius: BorderRadius.circular(20),
@@ -394,39 +422,46 @@ Widget newArrivalCard({bool isOpen = false}) {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(18),
+              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("BEST CHOICE",
-                      style: GoogleFonts.roboto(
-                          color: AppColors.blue,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold)),
-                  SizedBox(height: 6),
-                  Text("Nike Air Jordan",
-                      style: GoogleFonts.roboto(
-                          color: isOpen ? Colors.black : Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold)),
-                  SizedBox(height: 8),
-                  Text("\$849.69",
-                      style: GoogleFonts.roboto(
-                          color: isOpen ? Colors.black54 : Colors.white70,
-                          fontSize: 16)),
+                  Text(
+                    "BEST CHOICE",
+                    style: GoogleFonts.roboto(
+                      color: AppColors.blue,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                   SizedBox(height: 5),
+                  Text(
+                    item["name"]!,
+                    style: GoogleFonts.roboto(
+                      color: isOpen ? Colors.black : Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    item["price"]!,
+                    style: GoogleFonts.roboto(
+                      color: isOpen ? Colors.black54 : Colors.white70,
+                      fontSize: 16,
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-          Image.asset("assets/images/shoes_3.png", height: 100),
-          SizedBox(width: 10),
+          Image.asset(item["image"]!, height: 100),
+          const SizedBox(width: 10),
         ],
       ),
     ),
   );
 }
-
-
 
 class FilterSheet extends StatefulWidget {
   const FilterSheet({super.key});
@@ -436,11 +471,9 @@ class FilterSheet extends StatefulWidget {
 }
 
 class _FilterSheetState extends State<FilterSheet> {
-  static const String _defaultGender ="Men";
-  static const String _defaultSize="US 5.5";
-  static const RangeValues _defaultRange=RangeValues(16,159);
-
-
+  static const String _defaultGender = "Men";
+  static const String _defaultSize = "US 5.5";
+  static const RangeValues _defaultRange = RangeValues(16, 159);
 
   String selectedGender = _defaultGender;
   String selectedSize = _defaultSize;
@@ -469,14 +502,14 @@ class _FilterSheetState extends State<FilterSheet> {
               ),
             ),
           ),
-           SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Header
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               SizedBox(width: 50), // Spacer
-               Text("Filters",
+              SizedBox(width: 50), // Spacer
+              Text("Filters",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -484,66 +517,66 @@ class _FilterSheetState extends State<FilterSheet> {
               TextButton(
                 onPressed: () {
                   setState(() {
-                   selectedGender=_defaultGender;
-                   selectedSize=_defaultSize;
-                   _currentRangeValues=_defaultRange;
+                    selectedGender = _defaultGender;
+                    selectedSize = _defaultSize;
+                    _currentRangeValues = _defaultRange;
                   });
                 },
-                child:  Text("RESET",
+                child: Text("RESET",
                     style: TextStyle(color: Colors.grey, fontSize: 14)),
               )
             ],
           ),
-           SizedBox(height: 20),
+          SizedBox(height: 20),
 
           // Gender Section
-           Text("Gender",
+          Text("Gender",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold)),
-           SizedBox(height: 15),
+          SizedBox(height: 15),
           Row(
             children: [
               _buildChoiceChip("Men"),
-               SizedBox(width: 10),
+              SizedBox(width: 10),
               _buildChoiceChip("Women"),
-               SizedBox(width: 10),
+              SizedBox(width: 10),
               _buildChoiceChip("Unisex"),
             ],
           ),
-           SizedBox(height: 25),
+          SizedBox(height: 25),
 
           // Size Section
-           Text("Size",
+          Text("Size",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold)),
-           SizedBox(height: 15),
+          SizedBox(height: 15),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
                 _buildSizeChip("UK 4.4"),
-                 SizedBox(width: 10),
+                SizedBox(width: 10),
                 _buildSizeChip("US 5.5"),
-                 SizedBox(width: 10),
+                SizedBox(width: 10),
                 _buildSizeChip("UK 6.5"),
-                 SizedBox(width: 10),
+                SizedBox(width: 10),
                 _buildSizeChip("EU 11.5"),
               ],
             ),
           ),
-           SizedBox(height: 25),
+          SizedBox(height: 25),
 
           // Price Section
-           Text("Price",
+          Text("Price",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.bold)),
-           SizedBox(height: 10),
+          SizedBox(height: 10),
           RangeSlider(
             values: _currentRangeValues,
             min: 0,
@@ -560,12 +593,12 @@ class _FilterSheetState extends State<FilterSheet> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("\$${_currentRangeValues.start.round()}",
-                  style:  TextStyle(color: Colors.grey)),
+                  style: TextStyle(color: Colors.grey)),
               Text("\$${_currentRangeValues.end.round()}",
-                  style:  TextStyle(color: Colors.grey)),
+                  style: TextStyle(color: Colors.grey)),
             ],
           ),
-           SizedBox(height: 30),
+          SizedBox(height: 30),
 
           // Apply Button
           SizedBox(
@@ -578,11 +611,11 @@ class _FilterSheetState extends State<FilterSheet> {
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () => Navigator.pop(context),
-              child:  Text("Apply",
+              child: Text("Apply",
                   style: TextStyle(color: Colors.white, fontSize: 18)),
             ),
           ),
-           SizedBox(height: 10),
+          SizedBox(height: 10),
         ],
       ),
     );
@@ -595,7 +628,7 @@ class _FilterSheetState extends State<FilterSheet> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.blue :  Color(0xFF15202B),
+          color: isSelected ? AppColors.blue : Color(0xFF15202B),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Text(label,
@@ -611,9 +644,9 @@ class _FilterSheetState extends State<FilterSheet> {
     return GestureDetector(
       onTap: () => setState(() => selectedSize = label),
       child: Container(
-        padding:  EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.blue :  Color(0xFF15202B),
+          color: isSelected ? AppColors.blue : Color(0xFF15202B),
           borderRadius: BorderRadius.circular(30),
         ),
         child: Text(label,
@@ -630,6 +663,6 @@ void openFilterSheet(BuildContext context) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (_) =>  FilterSheet(),
+    builder: (_) => FilterSheet(),
   );
 }
