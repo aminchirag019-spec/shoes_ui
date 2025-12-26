@@ -19,45 +19,51 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF1A2530),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(onPressed:() {
-                    context.go(RouterName.homeScreen.path);
-                  },
-                      icon:iconBox(GIcons.back,)
+    return WillPopScope(
+      onWillPop: ()async {
+        context.go(RouterName.homeScreen.path);
+      return false;
+        },
+      child: Scaffold(
+        backgroundColor: const Color(0xFF1A2530),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(onPressed:() {
+                      context.go(RouterName.homeScreen.path);
+                    },
+                        icon:iconBox(GIcons.back,)
+                        ),
+                    Text(
+                      "Favourite",
+                      style: GoogleFonts.poppins(
+                        color: Colors.white70,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
                       ),
-                  Text(
-                    "Favourite",
-                    style: GoogleFonts.poppins(
-                      color: Colors.white70,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
                     ),
-                  ),
-                 IconButton(onPressed:() => context,
-                     icon: Container(
-                       height: 44,
-                       width: 44,
-                       decoration: BoxDecoration(
-                         color: AppColors.bg,
-                         borderRadius: BorderRadius.circular(30)
-                       ),
-                       child:ImageIcon(AssetImage("assets/images/Frame.png",),color: AppColors.white,),
-                     ))
-                ],
-              ),
-              const SizedBox(height: 12),
-              Expanded(child:shoesOptions())
+                   IconButton(onPressed:() => context,
+                       icon: Container(
+                         height: 44,
+                         width: 44,
+                         decoration: BoxDecoration(
+                           color: AppColors.bg,
+                           borderRadius: BorderRadius.circular(30)
+                         ),
+                         child:ImageIcon(AssetImage("assets/images/Frame.png",),color: AppColors.white,),
+                       ))
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Expanded(child:shoesOptions())
 
-            ],
+              ],
+            ),
           ),
         ),
       ),

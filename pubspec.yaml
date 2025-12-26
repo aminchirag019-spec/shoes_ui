@@ -46,6 +46,8 @@ dependencies:
   network_aware_package: ^1.0.0
   #session manager
   shared_preferences: ^2.5.4
+  firebase_core: ^4.3.0
+  firebase_messaging:
 
 
 dev_dependencies:

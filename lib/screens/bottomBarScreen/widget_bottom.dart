@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_1/router/router_class.dart';
 import 'package:task_1/utilities/colors.dart';
+import 'package:task_1/utilities/media_query.dart';
 
 
 class NavIcon extends StatelessWidget {
@@ -49,6 +50,7 @@ class Fab extends StatelessWidget {
       height: 72,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
+        color: Colors.transparent,
         boxShadow: [
         ],
       ),
@@ -57,7 +59,7 @@ class Fab extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 1,
-            backgroundColor: isOpen ? Colors.white : const Color(0xFF1E2A33),
+            backgroundColor: isOpen ? Colors.white :  Color(0xFF1E2A33),
           ),
           CircleAvatar(
             radius: 28,
@@ -88,7 +90,7 @@ class OldCustomBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  SizedBox(
-      height: 90, // 🔥 increase height to allow FAB overflow
+      height: height(context)* 0.09, // 🔥 increase height to allow FAB overflow
       child: CustomPaint(
         painter: NavBarPainter(   color: isOpen ? Colors.white : const Color(0xff161F28),),
         child: SafeArea(
@@ -98,9 +100,8 @@ class OldCustomBottomBar extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: [
 
-              /// 🔹 ICON ROW
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 10),
+                padding:  EdgeInsets.symmetric(horizontal: 24,vertical:height(context)*0.03),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -121,7 +122,6 @@ class OldCustomBottomBar extends StatelessWidget {
                 ),
               ),
 
-              /// 🔥 FAB (NOW VISIBLE)
               Positioned(
                 top: -20, // adjust freely now
                 child: GestureDetector(
@@ -151,15 +151,6 @@ class OldCustomBottomBar extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
 
 class NavBarPainter extends CustomPainter {
   final Color color;

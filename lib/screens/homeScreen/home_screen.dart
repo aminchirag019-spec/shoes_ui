@@ -22,48 +22,53 @@ class HomeScreen extends StatelessWidget {
         return AnimatedContainer(
           duration:  Duration(milliseconds: 200),
           color: isOpen ? AppColors.white : AppColors.chipBg,
-          child: Scaffold(
-            extendBody: true,
-            backgroundColor: Colors.transparent,
-            body: SafeArea(
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
-                  topBar(context: context),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        if (isOpen) {
-                          drawerController.toggle();
-                        }
-                      },
-                      behavior: HitTestBehavior.translucent,
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.only(bottom: 120),
-                        child: AbsorbPointer(
-                          absorbing: isOpen,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                               SizedBox(height: 20),
-                              searchBar(isOpen: isOpen),
-                               SizedBox(height: 20),
-                              brandRow(isOpen : isOpen),
-                               SizedBox(height: 20),
-                              sectionHeader("Popular Shoes",context,isOpen: isOpen),
-                               SizedBox(height: 12),
-                              popularShoes(isOpen: isOpen),
-                               SizedBox(height: 20),
-                              sectionHeader("New Arrivals", context,isOpen: isOpen),
-                               SizedBox(height: 12),
-                              newArrivalCard(isOpen: isOpen),
-                            ],
+          child: WillPopScope(
+            onWillPop: () async{
+              return true;
+            },
+            child: Scaffold(
+              extendBody: true,
+              backgroundColor: Colors.transparent,
+              body: SafeArea(
+                child: Column(
+                  children: [
+                     SizedBox(height: 16),
+                    topBar(context: context),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          if (isOpen) {
+                            drawerController.toggle();
+                          }
+                        },
+                        behavior: HitTestBehavior.translucent,
+                        child: SingleChildScrollView(
+                          padding: const EdgeInsets.only(bottom: 120),
+                          child: AbsorbPointer(
+                            absorbing: isOpen,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                 SizedBox(height: 20),
+                                searchBar(isOpen: isOpen),
+                                 SizedBox(height: 20),
+                                brandRow(isOpen : isOpen),
+                                 SizedBox(height: 20),
+                                sectionHeader("Popular Shoes",context,isOpen: isOpen),
+                                 SizedBox(height: 12),
+                                popularShoes(isOpen: isOpen),
+                                 SizedBox(height: 20),
+                                sectionHeader("New Arrivals", context,isOpen: isOpen),
+                                 SizedBox(height: 12),
+                                newArrivalCard(isOpen: isOpen),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -20,17 +20,23 @@ class _MainWrapperState extends State<MainWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return ZoomDrawer(
-      controller: _controller,
-      menuScreen: drawer(),
-      menuBackgroundColor: AppColors.chipBg,
-      borderRadius: 24,
-      angle: -12,
-      slideWidth: MediaQuery.of(context).size.width * 0.65,
-      showShadow: false,
+    return WillPopScope(
+      onWillPop: ()async {
+        context.go(RouterName.homeScreen.path);
+        return false;
+        },
+      child: ZoomDrawer(
+        controller: _controller,
+        menuScreen: drawer(),
+        menuBackgroundColor: AppColors.chipBg,
+        borderRadius: 24,
+        angle: -12,
+        slideWidth: MediaQuery.of(context).size.width * 0.65,
+        showShadow: false,
 
-      // 👇 IMPORTANT
-      mainScreen: ShellScaffold(child: widget.child),
+        // 👇 IMPORTANT
+        mainScreen: ShellScaffold(child: widget.child),
+      ),
     );
   }
 }

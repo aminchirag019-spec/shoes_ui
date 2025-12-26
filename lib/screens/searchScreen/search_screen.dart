@@ -29,93 +29,97 @@ class _SearchScreenState extends State<SearchScreen> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
       _focusNode.requestFocus();
     });
   }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.chipBg,
-      body: SafeArea(
-        child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 12,vertical: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(onPressed: () {
-                    context.push(RouterName.homeScreen.path);
-                  },
-                      icon: iconBox(Icons.arrow_back_ios),
+    return WillPopScope(
+      onWillPop: ()async {
+        context.go(RouterName.homeScreen.path);
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.chipBg,
+        body: SafeArea(
+          child: Padding(
+            padding:  EdgeInsets.symmetric(horizontal: 12,vertical: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(onPressed: () {
+                      context.push(RouterName.homeScreen.path);
+                    },
+                        icon: iconBox(Icons.arrow_back_ios),
+                    ),
+                      Text("Search",
+                        style: TextStyle(color: Colors.white,
+                            fontSize: 18)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          context.go(RouterName.homeScreen.path);
+                        },
+                        child: Text("Cancel",
+                            style: TextStyle(color: AppColors.blue)),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 25),
+                TextFormField(
+                  focusNode: _focusNode,
+                  controller: textController,
+                  style: TextStyle(color: Colors.white),
+                  onFieldSubmitted: (_) => addToRecent(),
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon:Icon(Icons.transit_enterexit),
+                      onPressed: addToRecent,
+                    ),
+                    prefixIcon: IconButton(onPressed:() => context.pop(),
+                        icon: ImageIcon(AssetImage("assets/images/search.png"))),
+                    hintText: "Search Your Shoes",
+                    hintStyle: TextStyle(color: Colors.white10),
+                    filled: true,
+                    fillColor: AppColors.bg,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide.none,
+                    ),
                   ),
-                    Text("Search",
-                      style: TextStyle(color: Colors.white,
-                          fontSize: 18)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        context.go(RouterName.homeScreen.path);
+                ),
+                if (search.isNotEmpty) ...[
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Recent Searches",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: search.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: const Icon(Icons.history, color: Colors.white54),
+                          title: Text(
+                            search[index],
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        );
                       },
-                      child: Text("Cancel",
-                          style: TextStyle(color: AppColors.blue)),
                     ),
                   ),
                 ],
-              ),
-
-              SizedBox(height: 25),
-              TextFormField(
-                focusNode: _focusNode,
-                controller: textController,
-                style: TextStyle(color: Colors.white),
-                onFieldSubmitted: (_) => addToRecent(),
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    icon:Icon(Icons.transit_enterexit),
-                    onPressed: addToRecent,
-                  ),
-                  prefixIcon: IconButton(onPressed:() => context.pop(),
-                      icon: ImageIcon(AssetImage("assets/images/search.png"))),
-                  hintText: "Search Your Shoes",
-                  hintStyle: TextStyle(color: Colors.white10),
-                  filled: true,
-                  fillColor: AppColors.bg,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-              if (search.isNotEmpty) ...[
-                const SizedBox(height: 20),
-                const Text(
-                  "Recent Searches",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: search.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: const Icon(Icons.history, color: Colors.white54),
-                        title: Text(
-                          search[index],
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      );
-                    },
-                  ),
-                ),
               ],
-            ],
+            ),
           ),
         ),
       ),

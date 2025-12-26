@@ -15,12 +15,9 @@ Widget menuItem(
     String title,
     String route,
     ) {
-  final w = MediaQuery.of(context).size.width;
-
   return InkWell(
     borderRadius: BorderRadius.circular(12),
     onTap: () {
-      // Close drawer first, then navigate
       ZoomDrawer.of(context)?.close();
       context.go(route);
     },
@@ -33,7 +30,7 @@ Widget menuItem(
           /// Icon
           ImageIcon(
             AssetImage(icon),
-            size: width(context) * 0.07, // responsive icon size
+            size: width(context) * 0.07,
             color: AppColors.grey,
           ),
 
@@ -57,9 +54,8 @@ Widget menuItem(
 Widget topBar({required BuildContext context, bool isOpen = false}) {
   final Color contentColor = isOpen ? AppColors.bg :AppColors.white;
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
+    padding: const EdgeInsets.symmetric(horizontal: 15),
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
           height: 45,
@@ -72,10 +68,10 @@ Widget topBar({required BuildContext context, bool isOpen = false}) {
                     context: context,
                     useRootNavigator: true,
                     isScrollControlled:
-                        true, // This allows the sheet to size itself
+                        true,
                     backgroundColor:
-                        Colors.transparent, // Ensures rounded corners show
-                    builder: (context) => const FilterSheet(),
+                        Colors.transparent,
+                    builder: (context) =>  FilterSheet(),
                   ),
               icon: ImageIcon(
                  AssetImage("assets/images/apps-circle.png"),

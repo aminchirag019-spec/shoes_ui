@@ -85,19 +85,19 @@ final GoRouter approuter = GoRouter(
           path: RouterName.homeScreen.path,
           builder: (context, state) => HomeScreen(),
         ),
+        GoRoute(
+          path: RouterName.notificationScreen.path,
+          builder: (context, state) => NotificationScreen(),
+        ),
+        GoRoute(
+          path: RouterName.profileScreen.path,
+          builder: (context, state) => ProfileScreen(),
+        ),
+        GoRoute(
+          path: RouterName.favouriteScreen.path,
+          builder: (context, state) => FavouriteScreen(),
+        ),
       ],
-    ),
-    GoRoute(
-      path: RouterName.notificationScreen.path,
-      builder: (context, state) => NotificationScreen(),
-    ),
-    GoRoute(
-      path: RouterName.profileScreen.path,
-      builder: (context, state) => ProfileScreen(),
-    ),
-    GoRoute(
-      path: RouterName.favouriteScreen.path,
-      builder: (context, state) => FavouriteScreen(),
     ),
     GoRoute(
       path: RouterName.detailsScreen.path,
