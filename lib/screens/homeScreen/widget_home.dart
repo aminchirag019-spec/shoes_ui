@@ -302,7 +302,9 @@ Widget popularShoes({
           ),
           child: GestureDetector(
             onTap: () {
-              context.go(RouterName.detailsScreen.path);
+              context.go(RouterName.detailsScreen.path,
+              extra: item
+              );
             },
             child: Stack(
               children: [

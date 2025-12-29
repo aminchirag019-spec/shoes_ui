@@ -5,7 +5,8 @@ import 'package:task_1/router/router_class.dart';
 import 'package:task_1/screens/detailsScreen/widget_details.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+  const DetailsScreen({super.key, required this.shoe});
+ final Map<String,String> shoe;
   @override
   State<DetailsScreen> createState() => _ShoeDetailNoSliversState();
 }
@@ -13,15 +14,16 @@ class DetailsScreen extends StatefulWidget {
 class _ShoeDetailNoSliversState extends State<DetailsScreen> {
 
 
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
+
   void onOwnerChanged(int newIndex) {
     setState(() {
       activeOwnerIndex = newIndex;
     });
+  }
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -44,7 +46,7 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
                       padding:  EdgeInsets.symmetric(horizontal: 10),
                       child:upperRow(context),
                     ),
-                    mainShoes(),
+                    mainShoes(shoe:widget.shoe),
                     Container(
                       padding:  EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -67,14 +69,14 @@ class _ShoeDetailNoSliversState extends State<DetailsScreen> {
                                         color: Colors.white70, fontSize: 11)),
                               ),
                                Spacer(),
-                              Text('\$967.800',
+                              Text(widget.shoe["price"]!,
                                   style: GoogleFonts.poppins(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700)),
                             ],
                           ),
                            SizedBox(height: 12),
-                          Text('Nike Air Jordan',
+                          Text(widget.shoe["name"]!,
                               style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontSize: 20,

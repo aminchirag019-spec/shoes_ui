@@ -101,7 +101,10 @@ final GoRouter approuter = GoRouter(
     ),
     GoRoute(
       path: RouterName.detailsScreen.path,
-      builder: (context, state) => DetailsScreen(),
+      builder: (context, state) {
+        final shoe =state.extra as Map<String, String>;
+        return DetailsScreen(shoe : shoe);
+      }
     ),
     GoRoute(
       path: RouterName.mycartScreen.path,

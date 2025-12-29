@@ -49,12 +49,9 @@ class _MycartScreenState extends State<MycartScreen> {
               ),
             ),
 
-            // 🛒 Cart items list
             optionShoes(),
-
-            // 💰 Summary section
             Container(
-              height: 300,
+              height: height(context)*0.36,
               width: width(context),
               decoration: BoxDecoration(
                 color: AppColors.bg,

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:task_1/screens/homeScreen/widget_home.dart';
-
 import '../../router/router_class.dart' show RouterName;
 import '../../utilities/colors.dart';
 import '../../utilities/icons.dart';
@@ -15,14 +13,6 @@ final List<String> galleryOwners = [
   'assets/images/NikeAirJordan_Orange.png',
 ];
 
-final Map<int, List<String>> ownerLookbooks = {
-  0: ['assets/images/Imag.png', 'assets/images/NikeClubMaxBlue.png'],
-  1: ['assets/images/NikeClubMaxPurple.png', 'assets/images/NikeClubMax.png'],
-  2: [
-    'assets/images/NikeAirJordan_Orange.png',
-    'assets/images/NikeAirMax_Orangea_white.png'
-  ],
-};
 
 Widget upperRow(BuildContext context) {
   return Row(
@@ -52,7 +42,7 @@ Widget upperRow(BuildContext context) {
                 color: AppColors.bg, borderRadius: BorderRadius.circular(30)),
             child: ImageIcon(
               AssetImage(
-                "assets/images/Frame.png",
+                "assets/images/Frame.png"
               ),
               color: AppColors.white,
             ),
@@ -66,19 +56,19 @@ final sizes = [38, 39, 40, 41, 42, 43];
 int selectedSize = 40;
 final PageController pageController = PageController(viewportFraction: 0.86);
 
-Widget mainShoes() {
+Widget mainShoes({required Map<String, String> shoe}) {
   return SizedBox(
     height: 300,
     child: PageView.builder(
       key: ValueKey(activeOwnerIndex),
       controller: pageController,
-      itemCount: ownerLookbooks[activeOwnerIndex]?.length ?? 0,
+      itemCount:shoe["image"]!.length,
+      pageSnapping: true,
       itemBuilder: (context, index) {
-        final images = ownerLookbooks[activeOwnerIndex]!;
         return Padding(
           padding: const EdgeInsets.only(top: 12),
           child: Image.asset(
-            images[index],
+            shoe['image']!,
             fit: BoxFit.contain,
           ),
         );
@@ -150,7 +140,7 @@ Widget choiceChip() {
   return StatefulBuilder(
     builder: (context, setState) {
       return Wrap(
-        spacing: 10,
+        spacing: 5,
         children: sizes.map((s) {
           final active = s == selectedSize;
           return ChoiceChip(
@@ -221,7 +211,7 @@ Widget buildBottomBar(BuildContext context) {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  currentItem["price"]!, // ✅ FIXED
+                  currentItem[1]['price']!,
                   style: GoogleFonts.poppins(
                     color: Colors.white,
                     fontSize: 20,
@@ -234,7 +224,7 @@ Widget buildBottomBar(BuildContext context) {
 
           ElevatedButton(
             onPressed: () {
-              addToCart(currentItem);
+              addToCart(currentItem[0]);
 
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
@@ -267,13 +257,21 @@ Widget buildBottomBar(BuildContext context) {
   );
 }
 
-final Map<String, String> currentItem = {
+final List <Map<String, String>> currentItem = [
+  {
   "image": "assets/images/NikeAirJordan_Orange.png",
   "name": "Nike Air Jordan",
   "price": "\$849.69",
   "size": "40",
-};
-void addToCart(Map<String, String> item) {
+},
+  {
+    "image": "assets/images/NikeAirJordan_Orange.png",
+    "name": "Nike Air Jordan",
+    "price": "\$999.69",
+    "size": "42",
+  }
+];
+void addToCart( Map<String, String> item) {
   final index = cart.indexWhere((e) => e["name"] == item["name"]);
 
   if (index != -1) {
