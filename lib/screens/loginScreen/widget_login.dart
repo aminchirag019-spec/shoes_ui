@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:task_1/utilities/colors.dart';
-
+import '../../auth/google_signin.dart';
+import '../../main.dart';
 import '../../router/router_class.dart';
 import '../../session/session_class.dart';
 import '../../session/session_key.dart';
@@ -102,41 +103,87 @@ bool obscurePassword = true;
  }
 
  /// Elevated Button
- Widget signInButton(){
-   return StatefulBuilder(builder: (context, setState) {
-     return SizedBox(
-       width: double.infinity,
-       height: 55,
-       child: ElevatedButton(
-         onPressed: () {
-           onLogin(context,emailController,formKey);
-         },
-         style: ElevatedButton.styleFrom(
-           backgroundColor: const Color(0xFF5B9EE1),
-           shape: RoundedRectangleBorder(
-             borderRadius: BorderRadius.circular(25),
-           ),
-         ),
-         child: Text(
-           "Sign In",
-           style: GoogleFonts.poppins(
-             fontSize: 16,
-             fontWeight: FontWeight.bold,
-             color: Colors.white,
-           ),
-         ),
-       ),
-     );
-   },);
- }
+Widget signInButton(BuildContext context) {
+  return SizedBox(
+    width: double.infinity,
+    height: 55,
+    child: ElevatedButton(
+      onPressed: () async {
+        if (!formKey.currentState!.validate()) return;
+
+        await SharedPrefsHelper()
+            .saveData(PrefKeys.isLoggedIn, true);
+
+        await SharedPrefsHelper().saveData(
+          PrefKeys.loginId,
+          emailController.text.trim(),
+        );
+
+        if (!context.mounted) return;
+
+        GoRouter.of(context).refresh();
+        context.go(RouterName.homeScreen.path);
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFF5B9EE1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+      ),
+      child: Text(
+        "Sign In",
+        style: GoogleFonts.poppins(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+    ),
+  );
+}
+
+/// Google Sign-In Button
+Widget googleSignInButton(BuildContext context) {
+  return GestureDetector(
+    onTap: () async {
+      try {
+        final user = await GoogleAuthHelper.signInWithGoogle();
+        if (user == null) return;
+        await SharedPrefsHelper()
+            .saveData(PrefKeys.isLoggedIn, true);
+
+        await SharedPrefsHelper().saveData(
+          PrefKeys.loginId,
+          user.email ?? '',
+        );
+        if (!context.mounted) return;
+        GoRouter.of(context).refresh();
+        context.go(RouterName.homeScreen.path);
+      } catch (e) {
+        debugPrint("Google Sign-In Error: $e");
+
+        if (!context.mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Google Sign-In failed"),
+          ),
+        );
+      }
+    },
+      child: Image.asset("assets/images/Button.png",
+      width:double.infinity,
+      ),
+);
+}
 
 void onLogin(BuildContext context, dynamic emailController,GlobalKey<FormState>formkey) async {
 // ... validation ...
   if (!formkey.currentState!.validate()) return;
   await SharedPrefsHelper().saveData(PrefKeys.isLoggedIn, true);
-  await SharedPrefsHelper().saveData(PrefKeys.loginId, emailController.text.trim());
+  await SharedPrefsHelper().saveData(
+      PrefKeys.loginId, emailController.text.trim());
   if (!context.mounted) return;
   GoRouter.of(context).refresh();
   context.push(RouterName.homeScreen.path);
-
 }

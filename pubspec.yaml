@@ -46,9 +46,11 @@ dependencies:
   network_aware_package: ^1.0.0
   #session manager
   shared_preferences: ^2.5.4
-  firebase_core: ^4.3.0
+  firebase_core: ^3.15.2
   firebase_messaging:
   flutter_local_notifications: ^17.0.0
+  firebase_auth: ^5.3.1
+  google_sign_in: ^6.2.1
 
 
 dev_dependencies:

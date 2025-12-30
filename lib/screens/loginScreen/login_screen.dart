@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:task_1/main.dart';
+
 import 'package:task_1/router/router_class.dart';
-import 'package:task_1/screens/homeScreen/home_screen.dart';
 import 'package:task_1/screens/loginScreen/widget_login.dart';
 import 'package:task_1/screens/widgets/app_bar.dart';
 import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/media_query.dart';
+
+import '../../auth/google_signin.dart';
 import '../../session/session_class.dart';
 import '../../session/session_key.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final VoidCallback? onSuccess;
+  final VoidCallback? onError;
+
+  const LoginScreen({
+    super.key,
+    this.onSuccess,
+    this.onError,
+  });
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
+  bool isGoogleLoading = false;
 
   @override
   void dispose() {
@@ -28,40 +36,63 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  Future<void> _handleGoogleSignIn() async {
+    if (isGoogleLoading) return;
+
+    setState(() => isGoogleLoading = true);
+
+    try {
+      final user = await GoogleAuthHelper.signInWithGoogle();
+
+      widget.onSuccess?.call();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Google Sign-In failed"),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => isGoogleLoading = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         context.go(RouterName.sliderScreen.path);
         return false;
       },
       child: Scaffold(
         backgroundColor: const Color(0xFF1A2530),
         body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
           child: SafeArea(
             child: Column(
               children: [
-               Padding(
-                 padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 8),
-                 child: Row(
-                   children: [
-                     iconBox(Icons.arrow_back_ios),
-                   ],
-                 ),
-               ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  child: Row(
+                    children: [
+                      iconBox(Icons.arrow_back_ios),
+                    ],
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Form(
                     key: formKey,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height:height(context)*0.06),
+                        SizedBox(height: height(context) * 0.06),
+
+                        /// Header
                         Center(
                           child: Column(
                             children: [
@@ -85,9 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
 
-                        SizedBox(height: 60),
+                        const SizedBox(height: 60),
 
-                        // Email Field
+                        /// Email
                         Text(
                           "Email Address",
                           style: GoogleFonts.poppins(
@@ -95,9 +126,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 16,
                           ),
                         ),
-                         SizedBox(height: 8),
-                        emailField(context),/// Email field
-                         SizedBox(height: 30),
+                        const SizedBox(height: 8),
+                        emailField(context),
+
+                        const SizedBox(height: 30),
+
+                        /// Password
                         Text(
                           "Password",
                           style: GoogleFonts.poppins(
@@ -105,15 +139,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 16,
                           ),
                         ),
-                         SizedBox(height: 10),
-                        passwordField(),/// Password field
-                         SizedBox(height: 10),
+                        const SizedBox(height: 10),
+                        passwordField(),
+
+                        const SizedBox(height: 10),
 
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              context.push(RouterName.forgotPassScreen.path);
+                              context.push(
+                                RouterName.forgotPassScreen.path,
+                              );
                             },
                             child: Text(
                               "Recovery Password",
@@ -125,24 +162,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
 
-                        SizedBox(height: 10),
-                        // Sign In Button
-                        signInButton(),
-                         SizedBox(height: 20),
-
-                        Image.asset(
-                          "assets/images/Button.png",
-                          height: 60,
-                          width: 500,
-                          fit: BoxFit.fill,
-                        ),
-
-                        SizedBox(height:140),
-
+                        const SizedBox(height: 10),
+                        signInButton(context),
+                        const SizedBox(height: 20),
+                        googleSignInButton(context),
+                        const SizedBox(height: 140),
                         Center(
                           child: GestureDetector(
                             onTap: () {
-                              context.push(RouterName.signupScreen.path);
+                              context.push(
+                                RouterName.signupScreen.path,
+                              );
                             },
                             child: Text.rich(
                               TextSpan(
@@ -176,6 +206,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-
-

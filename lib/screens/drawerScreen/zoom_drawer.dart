@@ -6,16 +6,16 @@ import '../../router/router_class.dart';
 import '../../utilities/colors.dart';
 import '../../utilities/media_query.dart';
 import '../homeScreen/widget_home.dart' show drawer, menuItem;
-class MainWrapper extends StatefulWidget {
+class DrawerScreen extends StatefulWidget {
   final Widget child;
 
-  const MainWrapper({super.key, required this.child});
+  const DrawerScreen({super.key, required this.child});
 
   @override
-  State<MainWrapper> createState() => _MainWrapperState();
+  State<DrawerScreen> createState() => DrawerScreenState();
 }
 
-class _MainWrapperState extends State<MainWrapper> {
+class DrawerScreenState extends State<DrawerScreen> {
   final ZoomDrawerController _controller = ZoomDrawerController();
 
   @override
@@ -53,13 +53,10 @@ class ShellScaffold extends StatelessWidget {
       valueListenable: drawer!.stateNotifier,
       builder: (context, state, _) {
         final isOpen = state == DrawerState.open;
-
         return Scaffold(
           extendBody: true,
           backgroundColor: isOpen ? AppColors.white : AppColors.chipBg,
-
           body: child,
-
           bottomNavigationBar: OldCustomBottomBar(
             selectedIndex: _selectedIndex(context),
             isOpen : isOpen,
@@ -177,5 +174,43 @@ Widget drawer() {
         ),
       );
     },
+  );
+}
+
+Widget menuItem(
+    BuildContext context,
+    String icon,
+    String title,
+    String route,
+    ) {
+  return InkWell(
+    borderRadius: BorderRadius.circular(12),
+    onTap: () {
+      ZoomDrawer.of(context)?.close();
+      context.go(route);
+    },
+    child: Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: width(context) * 0.04,
+      ),
+      child: Row(
+        children: [
+          ImageIcon(
+            AssetImage(icon),
+            size: width(context) * 0.07,
+            color: AppColors.grey,
+          ),
+          SizedBox(width: width(context) * 0.045),
+          Text(
+            title,
+            style: TextStyle(
+              color: AppColors.white,
+              fontSize: width(context) * 0.045, // responsive text
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    ),
   );
 }

@@ -78,7 +78,7 @@ final GoRouter approuter = GoRouter(
     ),
     ShellRoute(
       builder: (context, state, child) {
-        return MainWrapper(child: child);
+        return DrawerScreen(child: child);
       },
       routes: [
         GoRoute(

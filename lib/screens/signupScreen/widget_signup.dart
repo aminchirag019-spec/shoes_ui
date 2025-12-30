@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../auth/google_signin.dart';
+import '../../router/router_class.dart';
+import '../../session/session_class.dart';
+import '../../session/session_key.dart';
+
 /// Name field validation
 String? _validateName(String? value) {
   if (value == null || value.trim().isEmpty) {
@@ -118,6 +123,40 @@ Widget signinButton(BuildContext context){
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
+    ),
+  );
+}
+
+Widget googleSignInButton(BuildContext context) {
+  return GestureDetector(
+    onTap: () async {
+      try {
+        final user = await GoogleAuthHelper.signInWithGoogle();
+        if (user == null) return;
+        await SharedPrefsHelper()
+            .saveData(PrefKeys.isLoggedIn, true);
+
+        await SharedPrefsHelper().saveData(
+          PrefKeys.loginId,
+          user.email ?? '',
+        );
+        if (!context.mounted) return;
+        GoRouter.of(context).refresh();
+        context.go(RouterName.homeScreen.path);
+      } catch (e) {
+        debugPrint("Google Sign-In Error: $e");
+
+        if (!context.mounted) return;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Google Sign-In failed"),
+          ),
+        );
+      }
+    },
+    child: Image.asset("assets/images/Button.png",
+      width:double.infinity,
     ),
   );
 }

@@ -4,40 +4,42 @@ import 'package:task_1/router/router_class.dart';
 import 'package:task_1/utilities/colors.dart';
 import 'package:task_1/utilities/media_query.dart';
 
-
+/// =====================
+/// NAV ICON
+/// =====================
 class NavIcon extends StatelessWidget {
   final IconData icon;
   final int index;
-  final int selected;
-  final Function(int) onTap;
-  final bool isOpen; //// Added to switch icon color
+  final int selectedIndex;
+  final ValueChanged<int> onTap;
+  final bool isOpen;
 
   const NavIcon({
     super.key,
     required this.icon,
     required this.index,
-    required this.selected,
+    required this.selectedIndex,
     required this.onTap,
     this.isOpen = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isSelected = selected == index;
+    final bool isSelected = selectedIndex == index;
 
-    return GestureDetector(
+    return InkResponse(
       onTap: () => onTap(index),
+      radius: 24,
       child: Icon(
         icon,
         size: 22,
         color: isSelected
-            ? const Color(0xFF5AA8FF)
+            ? AppColors.blue
             : (isOpen ? Colors.black54 : const Color(0xFF93A3AD)),
       ),
     );
   }
 }
-
 class Fab extends StatelessWidget {
   final bool isOpen;
 
@@ -45,27 +47,25 @@ class Fab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 72,
       height: 72,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.transparent,
-        boxShadow: [
-        ],
-      ),
       child: Stack(
         alignment: Alignment.center,
         children: [
           CircleAvatar(
             radius: 1,
-            backgroundColor: isOpen ? Colors.white :  Color(0xFF1E2A33),
+            backgroundColor:
+            isOpen ? Colors.white : const Color(0xFF1E2A33),
           ),
-          CircleAvatar(
+          const CircleAvatar(
             radius: 28,
             backgroundColor: AppColors.blue,
-            child: Icon(Icons.shopping_bag_outlined,
-                color: AppColors.white, size: 26),
+            child: Icon(
+              Icons.shopping_bag_outlined,
+              color: Colors.white,
+              size: 26,
+            ),
           ),
         ],
       ),
@@ -75,7 +75,7 @@ class Fab extends StatelessWidget {
 
 class OldCustomBottomBar extends StatelessWidget {
   final int selectedIndex;
-  final Function(int) onTap;
+  final ValueChanged<int> onTap;
   final VoidCallback onProfileTap;
   final bool isOpen;
 
@@ -89,30 +89,35 @@ class OldCustomBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SizedBox(
-      height: height(context)* 0.09, // 🔥 increase height to allow FAB overflow
+    final double barHeight = height(context) * 0.09;
+
+    return SizedBox(
+      height: barHeight,
       child: CustomPaint(
-        painter: NavBarPainter(   color: isOpen ? Colors.white : const Color(0xff161F28),),
+        painter: NavBarPainter(
+          color: isOpen ? Colors.white : const Color(0xff161F28),
+        ),
         child: SafeArea(
           top: false,
           child: Stack(
-            clipBehavior: Clip.none, // ✅ IMPORTANT
+            clipBehavior: Clip.none,
             alignment: Alignment.bottomCenter,
             children: [
-
               Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 24,vertical:height(context)*0.03),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: height(context) * 0.03,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _item(Icons.home_outlined, 0),
-                    _item(Icons.favorite_border_outlined, 1),
-
+                    _navItem(Icons.home_outlined, 0),
+                    _navItem(Icons.favorite_border_outlined, 1),
                     const SizedBox(width: 72),
-
-                    _item(Icons.notifications_rounded, 2),
-                    GestureDetector(
+                    _navItem(Icons.notifications_rounded, 2),
+                    InkResponse(
                       onTap: onProfileTap,
+                      radius: 20,
                       child: Image.asset(
                         "assets/images/user.png",
                         width: 26,
@@ -121,32 +126,32 @@ class OldCustomBottomBar extends StatelessWidget {
                   ],
                 ),
               ),
-
               Positioned(
-                top: -20, // adjust freely now
-                child: GestureDetector(
-                    onTap: () {
-                    context.push(RouterName.mycartScreen.path);
-                    },
-                    child: Fab(isOpen: true,)),
+                top: -20,
+                child: InkResponse(
+                  onTap: () =>
+                      context.push(RouterName.mycartScreen.path),
+                  radius: 36,
+                  child: const Fab(isOpen: true),
+                ),
               ),
             ],
           ),
         ),
       ),
     );
-
   }
 
-  Widget _item(IconData icon, int index) {
+  Widget _navItem(IconData icon, int index) {
     final bool active = selectedIndex == index;
 
-    return GestureDetector(
+    return InkResponse(
       onTap: () => onTap(index),
+      radius: 24,
       child: Icon(
         icon,
         size: 26,
-        color: active ? Colors.blue : Colors.grey,
+        color: active ? AppColors.blue : Colors.grey,
       ),
     );
   }
@@ -155,22 +160,23 @@ class OldCustomBottomBar extends StatelessWidget {
 class NavBarPainter extends CustomPainter {
   final Color color;
 
-  NavBarPainter({required this.color});
+  const NavBarPainter({required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
+    final paint = Paint()
       ..color = color
       ..style = PaintingStyle.fill;
 
-    final Path path = Path();
+    final path = Path();
 
-    final double fabRadius = 36;
-    final double notchRadius = fabRadius + 15;
-    final double notchDepth = 38;
-    final double centerX = size.width / 2;
+    const double fabRadius = 36;
+    const double notchRadius = fabRadius + 15;
+    const double notchDepth = 38;
     const double topCurve = -26;
     const double smoothness = 18;
+
+    final double centerX = size.width / 2;
 
     path.moveTo(0, topCurve);
 
@@ -181,7 +187,6 @@ class NavBarPainter extends CustomPainter {
       0,
     );
 
-    // LEFT NOTCH CURVE
     path.quadraticBezierTo(
       centerX - notchRadius,
       0,
@@ -189,14 +194,12 @@ class NavBarPainter extends CustomPainter {
       notchDepth,
     );
 
-    // CENTER ARC (perfect semicircle)
     path.arcToPoint(
       Offset(centerX + notchRadius - 8, notchDepth),
-      radius: Radius.circular(notchRadius),
+      radius: const Radius.circular(notchRadius),
       clockwise: false,
     );
 
-    // RIGHT NOTCH CURVE (mirror)
     path.quadraticBezierTo(
       centerX + notchRadius,
       0,
@@ -204,7 +207,6 @@ class NavBarPainter extends CustomPainter {
       2,
     );
 
-    // RIGHT OUTER CURVE
     path.quadraticBezierTo(
       centerX + (size.width - centerX) * 0.78,
       0,
@@ -212,12 +214,11 @@ class NavBarPainter extends CustomPainter {
       topCurve,
     );
 
-    // BOTTOM
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
+    path
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height)
+      ..close();
 
-    // SHADOW
     canvas.drawShadow(
       path,
       Colors.black.withOpacity(0.45),
@@ -232,4 +233,3 @@ class NavBarPainter extends CustomPainter {
   bool shouldRepaint(covariant NavBarPainter oldDelegate) =>
       oldDelegate.color != color;
 }
-

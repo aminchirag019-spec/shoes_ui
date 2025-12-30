@@ -66,7 +66,7 @@ Widget optionShoes() {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: Image.asset(
-                        items["image"],
+                        items["image"]!,
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -79,7 +79,7 @@ Widget optionShoes() {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          items["name"],
+                          items["name"]!,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -90,7 +90,7 @@ Widget optionShoes() {
                         ),
                          SizedBox(height: 4),
                         Text(
-                          items["price"],
+                          items["price"]!,
                           style:  TextStyle(color: Colors.white70),
                         ),
                          SizedBox(height: 8),

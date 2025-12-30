@@ -110,13 +110,7 @@ class Signupscreen extends StatelessWidget {
                           signinButton(context)
                       ),
                       const SizedBox(height: 20),
-                      Image.asset(
-                        "assets/images/Button.png",
-                        height: 60,
-                        width:600,
-                        fit: BoxFit.fill,
-                      ),
-
+                      googleSignInButton(context),
                       SizedBox(height: 100),
 
                       Center(
